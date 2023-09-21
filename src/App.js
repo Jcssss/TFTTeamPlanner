@@ -16,7 +16,7 @@ function App() {
     useEffect(() => {
         var temp = Array(4);
         for (var i = 0; i < 4; i++) {
-            temp[i] = Array(7).fill(true)
+            temp[i] = Array(7).fill(false)
         }
         setBoardState(temp);
     }, []);
@@ -31,6 +31,13 @@ function App() {
             });
     }, []);
 
+    const onRightClick = (row, column) => {
+        var temp = boardState;
+        temp[row][column] = false;
+        setBoardState(temp);
+        forceUpdate();
+    }
+
     const onDrop = (row, column) => {
         var temp = boardState;
         temp[row][column] = !temp[row][column];
@@ -44,7 +51,11 @@ function App() {
                 {
                 //augments.map((item) => <img src={require(`./assets/tft-augment/${item.image.full}`)}></img>)
                 }
-                <Board boardState={boardState} onDrop={onDrop}/> 
+                <Board 
+                    boardState={boardState} 
+                    onDrop={onDrop} 
+                    onRightClick={onRightClick}
+                /> 
                 <Unit />
             </div>
         </DndProvider>

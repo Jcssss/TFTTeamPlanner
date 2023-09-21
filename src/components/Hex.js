@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-const Hex = ({content, onDrop, row, column}) => {
+const Hex = ({content, onDrop, onRightClick, row, column}) => {
     const ItemTypes = {
         UNIT: 'unit'
     }
@@ -20,7 +20,11 @@ const Hex = ({content, onDrop, row, column}) => {
 
     return (
         <div 
-            className={`hex ${(isOver || !content)? 'green': 'black'}`}
+            className={`hex ${(isOver || content)? 'green' : 'black'}`}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                onRightClick(row,column)
+            }}
             ref={drop}
         >
         </div>
