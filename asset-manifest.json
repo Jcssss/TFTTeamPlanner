@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/TFTCompPlanner/static/css/main.d567b2b2.css",
+    "main.js": "/TFTCompPlanner/static/js/main.fe380508.js",
+    "static/js/787.d25b0e13.chunk.js": "/TFTCompPlanner/static/js/787.d25b0e13.chunk.js",
+    "static/media/100-Duck-Sized-Horses-III.TFT_Set9.png": "/TFTCompPlanner/static/media/100-Duck-Sized-Horses-III.TFT_Set9.cd6f5e49eff5f5451e5d.png",
+    "index.html": "/TFTCompPlanner/index.html",
+    "main.d567b2b2.css.map": "/TFTCompPlanner/static/css/main.d567b2b2.css.map",
+    "main.fe380508.js.map": "/TFTCompPlanner/static/js/main.fe380508.js.map",
+    "787.d25b0e13.chunk.js.map": "/TFTCompPlanner/static/js/787.d25b0e13.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d567b2b2.css",
+    "static/js/main.fe380508.js"
+  ]
+}
