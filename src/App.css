@@ -28,8 +28,8 @@
     margin-bottom: calc(var(--m) - var(--s) * 0.2886)
 }
 
-.green {
-    background-color: green;
+.blue {
+    background-color: lightblue;
 }
 
 .black {

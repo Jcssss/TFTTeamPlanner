@@ -1,13 +1,14 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 
-const Unit = () => {
+const Unit = ({ championData }) => {
     const ItemTypes = {
         UNIT: 'unit'
     }
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.UNIT,
+        item: championData,
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging()
         })
@@ -22,8 +23,8 @@ const Unit = () => {
                 fontWeight: 'bold',
                 cursor: 'move',
             }}
-            alt="Augment" 
-            src={require(`../assets/tft-augment/100-Duck-Sized-Horses-III.TFT_Set9.png`)}
+            alt={championData.name} 
+            src={require(`../assets/tft-champion/${championData.img}`)}
         >
         </img>
     );

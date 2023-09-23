@@ -1,16 +1,24 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-const Hex = ({content, onDrop, onRightClick, row, column}) => {
+const Hex = ({content, id, onDrop, onRightClick, row, column}) => {
     const ItemTypes = {
         UNIT: 'unit'
     }
 
+    const getImage = (imageName) => {
+        if (imageName === '') {
+            return 'none'
+        }
+
+        return `url(${require(`../assets/tft-champion/${content}`)})`
+    };
+
     const [{ isOver }, drop] = useDrop(
         () => ({
             accept: ItemTypes.UNIT,
-            drop: () => {
-                onDrop(row, column)
+            drop: (item) => {
+                onDrop(item.img, row, column)
             },
             collect: (monitor) => ({
                 isOver: !!monitor.isOver()
@@ -20,12 +28,17 @@ const Hex = ({content, onDrop, onRightClick, row, column}) => {
 
     return (
         <div 
-            className={`hex ${(isOver || content)? 'green' : 'black'}`}
+            className={`hex ${(isOver)? 'blue' : 'black'}`}
             onContextMenu={(e) => {
                 e.preventDefault();
                 onRightClick(row,column)
             }}
+            id={id}
             ref={drop}
+            style={{ 
+                backgroundImage: getImage(content),
+                backgroundPosition: '90% -10px;',
+            }}
         >
         </div>
     );

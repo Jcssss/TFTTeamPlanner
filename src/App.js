@@ -9,6 +9,7 @@ function App() {
     const patch = '13.18.1';
     const [, updateState] = useState();
     const [augments, setAugments] = useState([]);
+    const [champions, setChampions] = useState([]);
     const [boardState, setBoardState] = useState([]);
 
     const forceUpdate = useCallback(() => updateState({}), []);
@@ -16,31 +17,42 @@ function App() {
     useEffect(() => {
         var temp = Array(4);
         for (var i = 0; i < 4; i++) {
-            temp[i] = Array(7).fill(false)
+            temp[i] = Array(7).fill('')
         }
         setBoardState(temp);
     }, []);
 
     useEffect(() => {
+        setAugments([]);
         fetch('http://ddragon.leagueoflegends.com/cdn/' + patch + '/data/en_US/tft-augments.json')
             .then(res => res.json())
             .then(res => {
                 Object.keys(res.data).forEach(item => {
-                    setAugments(prev => [...prev, res.data[item]])
+                    setAugments(prev => [...prev, { "name": res.data[item]["name"], "img": res.data[item]["image"]["full"]}])
+                })
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch('http://ddragon.leagueoflegends.com/cdn/' + patch + '/data/en_US/tft-champion.json')
+            .then(res => res.json())
+            .then(res => {
+                Object.keys(res.data).forEach(item => {
+                    setChampions(prev => [...prev, { "name": res.data[item]["name"], "tier": res.data[item]["tier"], "img": res.data[item]["image"]["full"]}])
                 })
             });
     }, []);
 
     const onRightClick = (row, column) => {
         var temp = boardState;
-        temp[row][column] = false;
+        temp[row][column] = '';
         setBoardState(temp);
         forceUpdate();
     }
 
-    const onDrop = (row, column) => {
+    const onDrop = (img, row, column) => {
         var temp = boardState;
-        temp[row][column] = !temp[row][column];
+        temp[row][column] = img;
         setBoardState(temp);
         forceUpdate();
     }
@@ -56,7 +68,11 @@ function App() {
                     onDrop={onDrop} 
                     onRightClick={onRightClick}
                 /> 
-                <Unit />
+                <div>
+                    {champions.map((champion, i) => (
+                        <Unit championData={champion} key={i}/>
+                    ))}
+                </div>
             </div>
         </DndProvider>
     );
