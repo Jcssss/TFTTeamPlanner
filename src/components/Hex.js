@@ -6,14 +6,6 @@ const Hex = ({content, id, onDrop, onRightClick, row, column}) => {
         UNIT: 'unit'
     }
 
-    const getImage = (imageName) => {
-        if (imageName === '') {
-            return 'none'
-        }
-
-        return `url(${require(`../assets/tft-champion/${content}`)})`
-    };
-
     const [{ isOver }, drop] = useDrop(
         () => ({
             accept: ItemTypes.UNIT,
@@ -36,8 +28,10 @@ const Hex = ({content, id, onDrop, onRightClick, row, column}) => {
             id={id}
             ref={drop}
             style={{ 
-                backgroundImage: getImage(content),
-                backgroundPosition: '90% -10px;',
+                backgroundImage: `url(https://raw.communitydragon.org/latest/game/${content})`,
+                backgroundSize: 'cover',
+                backgroundPosition: '30% 60%',
+                backgroundRepeat: 'no-repeat'
             }}
         >
         </div>

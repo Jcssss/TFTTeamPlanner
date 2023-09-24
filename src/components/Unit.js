@@ -22,9 +22,11 @@ const Unit = ({ championData }) => {
                 fontSize: 25,
                 fontWeight: 'bold',
                 cursor: 'move',
+                height: '50px',
+                width: '50px'
             }}
             alt={championData.name} 
-            src={require(`../assets/tft-champion/${championData.img}`)}
+            src={`https://raw.communitydragon.org/latest/game/${championData.img}`}
         >
         </img>
     );

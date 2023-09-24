@@ -4,6 +4,8 @@ import Board from './components/Board.js';
 import Unit from './components/Unit.js';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+//'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
+//'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
 
 function App() {
     const patch = '13.18.1';
@@ -23,23 +25,19 @@ function App() {
     }, []);
 
     useEffect(() => {
-        setAugments([]);
-        fetch('http://ddragon.leagueoflegends.com/cdn/' + patch + '/data/en_US/tft-augments.json')
+        fetch('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json')
             .then(res => res.json())
             .then(res => {
-                Object.keys(res.data).forEach(item => {
-                    setAugments(prev => [...prev, { "name": res.data[item]["name"], "img": res.data[item]["image"]["full"]}])
-                })
-            });
-    }, []);
-
-    useEffect(() => {
-        fetch('http://ddragon.leagueoflegends.com/cdn/' + patch + '/data/en_US/tft-champion.json')
-            .then(res => res.json())
-            .then(res => {
-                Object.keys(res.data).forEach(item => {
-                    setChampions(prev => [...prev, { "name": res.data[item]["name"], "tier": res.data[item]["tier"], "img": res.data[item]["image"]["full"]}])
-                })
+                setChampions( res.setData['0'].champions.map((champion) => {
+                    if (champion.squareIcon != null) {
+                        return ({ 
+                            "name": champion.name, 
+                            "cost": champion.cost, 
+                            "img": champion.tileIcon.substring(0, champion.tileIcon.length - 3).toLowerCase() + 'png', 
+                            "traits": champion.traits
+                        })
+                    }
+                }).filter(elm => elm))
             });
     }, []);
 
@@ -69,9 +67,9 @@ function App() {
                     onRightClick={onRightClick}
                 /> 
                 <div>
-                    {champions.map((champion, i) => (
-                        <Unit championData={champion} key={i}/>
-                    ))}
+                    {champions.map((champion, i) => {
+                        return <Unit championData={champion} key={i}/>
+                    })}
                 </div>
             </div>
         </DndProvider>

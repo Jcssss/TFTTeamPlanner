@@ -1,6 +1,6 @@
 .board {
     display: flex;
-    --s: 100px;
+    --s: 80px;
     --m: 4px;
     --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px); 
 }
