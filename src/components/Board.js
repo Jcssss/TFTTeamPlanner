@@ -11,7 +11,6 @@ const Board = ({ boardState, onDrop, onRightClick }) => {
                             {arr.map((item, j) => (
                                 <Hex 
                                     content={item} 
-                                    id={j} 
                                     onDrop={onDrop}
                                     onRightClick={onRightClick}
                                     row={i}
