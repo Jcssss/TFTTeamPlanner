@@ -46,7 +46,10 @@ function App() {
     useEffect(() => {
         var temp = Array(4);
         for (var i = 0; i < 4; i++) {
-            temp[i] = Array(7).fill('')
+            temp[i] = Array(7)
+            for (var j = 0; j < 7; j++) {
+                temp[i][j] = { 'champImg': '', 'itemImg': [] };
+            }
         }
         setBoardState(temp);
     }, []);
@@ -105,14 +108,26 @@ function App() {
 
     const onRightClick = (row, column) => {
         var temp = boardState;
-        temp[row][column] = '';
+        temp[row][column].champImg = '';
+        temp[row][column].itemImg = [];
         setBoardState(temp);
         forceUpdate();
     }
 
     const onDrop = (type, img, row, column) => {
         var temp = boardState;
-        temp[row][column] = img;
+
+        if (type === 'unit') {
+            temp[row][column].champImg = img;
+        } else if (type === 'item' && temp[row][column].champImg !== '') {
+            if (temp[row][column].itemImg.length > 2) {
+                return
+            }
+
+            temp[row][column].itemImg.push(img);
+            console.log(temp[row][column].itemImg);
+        }
+
         setBoardState(temp);
         forceUpdate();
     }
