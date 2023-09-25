@@ -7,7 +7,7 @@ const Hex = ({content, onDrop, onRightClick, row, column}) => {
         () => ({
             accept: ['unit', 'item'], 
             drop: (dropped) => {
-                onDrop('', dropped.img, row, column)
+                onDrop(dropped.type, dropped.data.img, row, column)
             },
             collect: (monitor) => ({
                 isOver: !!monitor.isOver()
@@ -25,7 +25,7 @@ const Hex = ({content, onDrop, onRightClick, row, column}) => {
             }}
             ref={drop}
             style={{ 
-                backgroundImage: `url(https://raw.communitydragon.org/latest/game/${content})`,
+                backgroundImage: `url(https://raw.communitydragon.org/latest/game/${content.champImg})`,
                 backgroundSize: 'cover',
                 backgroundPosition: '30% 60%',
                 backgroundRepeat: 'no-repeat'
