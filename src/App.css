@@ -18,21 +18,14 @@
     shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px), #000 0 var(--f));
 }
 
-.container div div {
+.hex {
     width: var(--s);
     margin: var(--m);
     height: calc(var(--s) * 1.1547);
     display: inline-block;
     font-size: initial;
     clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-    margin-bottom: calc(var(--m) - var(--s) * 0.2886)
-}
-
-.blue {
-    background-color: lightblue;
-}
-
-.black {
+    margin-bottom: calc(var(--m) - var(--s) * 0.2886);
     background-color: black;
 }
 
@@ -77,7 +70,28 @@
     flex-wrap: wrap;
 }
 
-.item {
-    
+.hex-items {
+    position: absolute;
+    left: 0;
+    bottom: -0.9rem;
+    width: 100%;
+    text-align: center;
+}
+
+.hex-container {
+    position: relative;
+}
+
+.hex-unit {
+    clip-path: polygon(5% 28%, 5% 72%, 50% 94%, 95% 72%, 95% 28%, 50% 6%);
+    z-index: 300;
+    position: absolute;
+    width: var(--s);
+    height: calc(var(--s) * 1.1547);
+    background-color: white;
+}
+
+.blue {
+    background-color: lightblue;
 }
 

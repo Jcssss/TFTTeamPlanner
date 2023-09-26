@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
+import { colours, baseUrl } from '../scripts/constants.js';
 
 const Unit = ({ championData }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -10,8 +11,6 @@ const Unit = ({ championData }) => {
         })
     }));
 
-    const colours = ['#000000', '#909994', '#12a339', '#1e83e8', '#9b1ee8', '#c7c91a'] 
-
     return (
         <div
             ref={drag}
@@ -21,8 +20,9 @@ const Unit = ({ championData }) => {
                 cursor: 'move',
                 height: '60px',
                 width: '60px',
-                backgroundImage: `url(https://raw.communitydragon.org/latest/game/${championData.img})`,
-                backgroundSize: 'cover',
+                backgroundImage: `url(${baseUrl + championData.img})`,
+                backgroundSize: '120%',
+                backgroundPosition: '100% 0%',
                 borderColor: colours[championData.cost],
                 borderStyle: 'solid',
                 borderWidth: '3px'

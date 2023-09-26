@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
+import { baseUrl } from '../scripts/constants.js';
 
 const Item = ({ itemData }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -19,7 +20,7 @@ const Item = ({ itemData }) => {
                 cursor: 'move',
                 height: '60px',
                 width: '60px',
-                backgroundImage: `url(https://raw.communitydragon.org/latest/game/${itemData.img})`,
+                backgroundImage: `url(${baseUrl + itemData.img})`,
                 backgroundSize: 'cover',
                 borderStyle: 'solid',
                 borderWidth: '3px'

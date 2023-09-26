@@ -7,15 +7,15 @@ const Board = ({ boardState, onDrop, onRightClick }) => {
             <div className="container">
                 {boardState.map((arr, i) => (
                     <div className="row" id={i}>
-                        {arr.map((hexData, j) => (
-                            <Hex 
+                        {arr.map((hexData, j) => {
+                            return (<Hex 
                                 content={hexData} 
                                 onDrop={onDrop}
                                 onRightClick={onRightClick}
                                 row={i}
                                 column={j}
-                            />
-                        ))}
+                            />)
+                        })}
                     </div>
                 ))}
             </div>
