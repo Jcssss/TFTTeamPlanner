@@ -1,7 +1,7 @@
 import React from 'react';
 import Hex from './Hex.js';
 
-const Board = ({ boardState, onDrop, onRightClick }) => {
+const Board = ({ boardState, onDrop, removeUnit, removeItem }) => {
     return (
         <div className='board'>
             <div className="container">
@@ -11,7 +11,8 @@ const Board = ({ boardState, onDrop, onRightClick }) => {
                             return (<Hex 
                                 content={hexData} 
                                 onDrop={onDrop}
-                                onRightClick={onRightClick}
+                                removeUnit={removeUnit}
+                                removeItem={removeItem}
                                 row={i}
                                 column={j}
                             />)

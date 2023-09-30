@@ -29,11 +29,32 @@
     background-color: black;
 }
 
-.unit-container {
-    margin-top: 30px;
+.flex {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.organizer-header {
+    width: 100%;
+    margin: 10px 20px 10px 20px;
+}
+
+.organizer-container {
+    margin-top: 40px;
+}
+
+.filter-container {
+    width: 30rem;
+}
+
+.filter-button {
+    text-align: center;
+    width: 5rem;
+}
+
+.search-field {
+    margin-left: 10px;
 }
 
 .unit {
@@ -62,12 +83,6 @@
     color: white;
     text-align: center;
     border-radius: 0 0 0 5px;
-}
-
-.item-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .hex-items {

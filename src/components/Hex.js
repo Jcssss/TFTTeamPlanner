@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrop } from 'react-dnd';
 import { colours, baseUrl } from '../scripts/constants.js'
 
-const Hex = ({content, onDrop, onRightClick, row, column}) => {
+const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
 
     const [{ isOver }, drop] = useDrop(
         () => ({
@@ -29,7 +29,7 @@ const Hex = ({content, onDrop, onRightClick, row, column}) => {
                     className = {`hex-unit ${(isOver)? 'blue' : ''}`}
                     onContextMenu={(e) => {
                         e.preventDefault();
-                        onRightClick(row,column)
+                        removeUnit(row,column)
                     }}
                     ref={drop}
                     style={(content.champData !== null)? { 
@@ -47,6 +47,10 @@ const Hex = ({content, onDrop, onRightClick, row, column}) => {
                         alt={item.name}
                         key={i}
                         src={`${baseUrl + item.img}`}
+                        onContextMenu={(e) => {
+                            e.preventDefault()
+                            removeItem(item.name, row, column)
+                        }}
                         style={{ 
                             height: '16px',
                             width: '16px'

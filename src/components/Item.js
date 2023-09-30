@@ -26,7 +26,7 @@ const Item = ({ itemData }) => {
                 borderWidth: '3px'
             }}
             alt={itemData.name} 
-            onClick={() => console.log(itemData.apiName)}
+            onClick={() => console.log(itemData.incompatibleTraits)}
         >
         </div>
     );

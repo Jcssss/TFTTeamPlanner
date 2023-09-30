@@ -28,6 +28,7 @@ const Unit = ({ championData }) => {
                 borderWidth: '3px'
             }}
             alt={championData.name} 
+            onClick={() => console.log(championData.traits)}
         >
             <div className='unit-name'>
                 {championData.name}

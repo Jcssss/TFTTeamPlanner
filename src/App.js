@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Board from './components/Board.js';
-import Unit from './components/Unit.js';
-import Item from './components/Item.js';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { fetchItems, fetchUnits } from './scripts/ApiCommands.js';
+import Organizer from './components/Organizer.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
@@ -41,7 +40,7 @@ function App() {
             });
     });
 
-    const onRightClick = (row, column) => {
+    const removeUnit = (row, column) => {
         var temp = boardState;
         temp[row][column].champData = null;
         temp[row][column].itemData = [];
@@ -49,17 +48,37 @@ function App() {
         forceUpdate();
     }
 
+    const removeItem = (name, row, column) => {
+        var temp = boardState;
+        var hex = temp[row][column];
+
+        hex.itemData = hex.itemData.filter(item => item.name !== name);
+
+        setBoardState(temp);
+        forceUpdate();
+    }
+
     const onDrop = (type, data, row, column) => {
         var temp = boardState;
+        var hex = temp[row][column];
+        var champ = hex.champData;
+        var items = hex.itemData;
 
         if (type === 'unit') {
-            temp[row][column].champData = data;
-        } else if (type === 'item' && temp[row][column].champData !== null) {
-            if (temp[row][column].itemData.length > 2) {
+            hex.champData = data;
+        } else if (type === 'item' && champ !== null) {
+            if (items.length > 2) {
+                console.log('This unit cannot hold another item.')
+                return
+            } else if (data.incompatibleTraits.some((trait) => champ.traits.includes(trait))) {
+                console.log('This unit already has that trait.')
+                return
+            } else if (data.unique && items.some((item) => item.name === data.name)) {
+                console.log('A unit can only have one of that item.')
                 return
             }
 
-            temp[row][column].itemData.push(data);
+            hex.itemData.push(data);
         }
 
         setBoardState(temp);
@@ -72,18 +91,13 @@ function App() {
                 <Board 
                     boardState={boardState} 
                     onDrop={onDrop} 
-                    onRightClick={onRightClick}
+                    removeUnit={removeUnit}
+                    removeItem={removeItem}
                 /> 
-                <div className='unit-container'>
-                    {champions.map((champion, i) => {
-                        return <Unit championData={champion} key={i}/>
-                    })}
-                </div>
-                <div className='item-container'>
-                    {items.map((item) => 
-                        <Item itemData={item}></Item>
-                    )}
-                </div>
+                <Organizer 
+                    champions={champions}
+                    items={items}
+                />
             </div>
         </DndProvider>
     );

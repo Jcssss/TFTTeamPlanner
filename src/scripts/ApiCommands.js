@@ -37,13 +37,14 @@ export const fetchItems = function(entireJson) {
                         "name": item.name,
                         "composition": item.composition,
                         "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
-                        "unique": item.unique
+                        "unique": item.unique,
+                        "incompatibleTraits": item.incompatibleTraits.map(trait => trait.split('_')[1])
                     })
                 }
             }
         }
 
-        return;
+        return null;
     }).filter(item => item)
 }
 
