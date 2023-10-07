@@ -53,7 +53,10 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                         }}
                         style={{ 
                             height: '16px',
-                            width: '16px'
+                            width: '16px',
+                            borderWidth: '1px',
+                            borderColor: 'black',
+                            borderStyle: 'solid'
                         }}
                     ></img>
                 ))}

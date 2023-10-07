@@ -34,7 +34,7 @@ export const fetchItems = function(entireJson) {
                 if (!item.name.toLowerCase().includes('orb') && !item.name.toLowerCase().includes('component') && !item.name.toLowerCase().includes('item')) {
                     return ({
                         "apiName": item.apiName,
-                        "name": item.name,
+                        "name": item.name.replace('<br>', ''),
                         "composition": item.composition,
                         "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
                         "unique": item.unique,

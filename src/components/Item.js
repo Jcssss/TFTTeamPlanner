@@ -14,6 +14,7 @@ const Item = ({ itemData }) => {
     return (
         <div
             ref={drag}
+            key={itemData.name}
             className = 'item'
             style={{
                 opacity: isDragging ? 0.5 : 1,
@@ -26,8 +27,10 @@ const Item = ({ itemData }) => {
                 borderWidth: '3px'
             }}
             alt={itemData.name} 
-            onClick={() => console.log(itemData.incompatibleTraits)}
         >
+            <div className='item-name'>
+                {itemData.name}
+            </div>
         </div>
     );
 }

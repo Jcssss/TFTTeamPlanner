@@ -15,6 +15,7 @@ const Unit = ({ championData }) => {
         <div
             ref={drag}
             className = "unit"
+            key={championData.name}
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: 'move',
