@@ -9,15 +9,8 @@ const Organizer = ({ champions, items }) => {
     const [searchTerm, setSearchTerm] = useState('')
     const displayStateOptions = ['All', 'Items', 'Units'];
 
-    const displayChampions = () => {
-        if (displayState === 'All' || displayState === 'Units') {
-            return champions.filter(champ => filterDisplay(champ))
-                .map((champion) => {
-                    return <Unit championData={champion}/>
-                })
-        }
-    }
-
+    // Given the name of an item/champion, checks if the name matches
+    // the search term
     const filterDisplay = (name) => {
         var nameOrigin = name.name.toLowerCase();
         var clippedName = nameOrigin.replace(/[^\w]/, '');
@@ -28,8 +21,27 @@ const Organizer = ({ champions, items }) => {
             || clippedName.includes(clippedSearch));
     }
 
+    // Filters and displays the set of units
+    const displayChampions = () => {
+
+        // Checks if units should be shown
+        if (displayState === 'All' || displayState === 'Units') {
+
+            // filters the units based on the search filter
+            return champions.filter(champ => filterDisplay(champ))
+                .map((champion) => {
+                    return <Unit championData={champion}/>
+                })
+        }
+    }
+
+    // Filters and displays the set of items
     const displayItems = () => {
+
+        // Checks if items should be displayed
         if (displayState === 'All' || displayState === 'Items') {
+
+            // Filters the set of items based on the search term
             return items.filter(item => filterDisplay(item))
                 .map((item) => 
                     <Item itemData={item}></Item>

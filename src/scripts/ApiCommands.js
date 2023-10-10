@@ -1,3 +1,4 @@
+// A list of the sets of items that we want to be ignored
 const ignorableItems = [
     'TFT_Item_ThiefsGloves_Empty',
     'TFT_Item_BlankSlot',
@@ -24,14 +25,24 @@ const ignorableItems = [
     'TFT_Item_TitanicHydra',
 ]
 
+// Given the JSON file, extracts relevant info about the set's items
 export const fetchItems = function(entireJson) {
     var imgName = ''
 
     return entireJson.items.map((item) => { 
         imgName = item.icon;
+
+        // Filters items from the current set or in the general bin
         if (item.apiName.includes('TFT9_Item') || item.apiName.includes('TFT_Item')) {
-            if(item.name != null && !ignorableItems.includes(item.apiName)) {
-                if (!item.name.toLowerCase().includes('orb') && !item.name.toLowerCase().includes('component') && !item.name.toLowerCase().includes('item')) {
+
+            // Filters out unwanted items
+            if( item.name != null && 
+                !ignorableItems.includes(item.apiName) &&
+                !item.name.toLowerCase().includes('orb') && 
+                !item.name.toLowerCase().includes('component') && 
+                !item.name.toLowerCase().includes('item')) {
+                    
+                    // Tracks and returns relevant data in an object
                     return ({
                         "apiName": item.apiName,
                         "name": item.name.replace('<br>', ''),
@@ -40,22 +51,32 @@ export const fetchItems = function(entireJson) {
                         "unique": item.unique,
                         "incompatibleTraits": item.incompatibleTraits.map(trait => trait.split('_')[1])
                     })
-                }
             }
         }
-
         return null;
+    
+    // filters out the null values
     }).filter(item => item)
 }
 
+// Given the entire JSON, extracts info about the set's units
 export const fetchUnits = function(entireJson) {
     var addedUnits = [];
     var imgName = '';
 
+    // takes the latest data on champions and iterates through them
     return entireJson.setData['0'].champions.map((champion) => {
-        if (!Object.values(champion.stats).includes(null) && !addedUnits.includes(champion.name)) {
+
+        // Removes unnecessary units
+        if (!Object.values(champion.stats).includes(null) && 
+            !addedUnits.includes(champion.name)) {
+            
             imgName = champion.squareIcon;
+
+            // Prevents duplicate units (Set 9 Ryze)
             addedUnits.push(champion.name)
+
+            // Extracts relevant data about the unit
             return ({ 
                 "name": champion.name, 
                 "cost": (champion.traits.length === 0)? 0 : champion.cost, 
@@ -63,7 +84,27 @@ export const fetchUnits = function(entireJson) {
                 "traits": champion.traits
             })
         }
-
         return null;
+    
+    // filters out the null values
+    }).filter(champ => champ);
+}
+
+// Given the entire JSON, extracts info about the set's traits
+export const fetchTraits = function(entireJson) {
+    var imgName = '';
+
+    // takes the latest data on traits and iterates through them
+    return entireJson.setData['0'].traits.map((trait) => {
+        imgName = trait.icon;
+
+        // Extracts relevant data about the trait
+        return ({ 
+            "name": trait.name, 
+            "img": imgName.substring(0, imgName.length - 3).toLowerCase() + 'png', 
+            "intervals": trait.effects.map((int) => int.minUnits),
+        })
+
+    // filters out the null values
     }).filter(champ => champ);
 }

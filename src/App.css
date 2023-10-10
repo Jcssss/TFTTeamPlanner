@@ -1,11 +1,12 @@
 .board {
     display: flex;
-    --s: 80px;
-    --m: 4px;
+    --s: 9vw;
+    --m: 0.4vw;
     --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px); 
 }
 
 .container {
+    flex: 3;
     font-size: 0;
     width: 1000px;
 }
@@ -16,6 +17,10 @@
     float: left;
     height: 120%; 
     shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px), #000 0 var(--f));
+}
+
+.traits {
+    flex: 1
 }
 
 .hex {
@@ -37,15 +42,21 @@
 
 .organizer-header {
     width: 100%;
-    margin: 10px 20px 10px 20px;
+    margin: 10px 0px 10px 0px;
+    justify-content: center;
 }
 
 .organizer-container {
     margin-top: 40px;
+    width: 100%;
+}
+
+.img-container {
+    justify-content: center;
 }
 
 .filter-container {
-    width: 30rem;
+    width: 30vw;
 }
 
 .filter-button {
@@ -66,6 +77,7 @@
 .search-field {
     margin-left: 10px;
     margin-right: 10px;
+    width: 70%;
     border: none;
 }
 
@@ -84,8 +96,8 @@
     border-radius: 10px;
     border-style: solid;
     padding: 2px;
+    width: 80%;
     justify-content: center;
-    margin-left: 10px;
 }
 
 .item {

@@ -26,6 +26,7 @@ const Item = ({ itemData }) => {
                 borderStyle: 'solid',
                 borderWidth: '3px'
             }}
+            onClick = {() => console.log(itemData.name)}
             alt={itemData.name} 
         >
             <div className='item-name'>
