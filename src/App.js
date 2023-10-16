@@ -29,7 +29,6 @@ function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className='App'>
-                <div onClick={() => console.log(traits)}>Test</div>
                 <Board traitData={traits}/> 
                 <Organizer 
                     champions={champions}

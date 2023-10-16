@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Hex from './Hex.js';
+import Trait from './Trait.js';
 
 const Board = ({ traitData }) => {
     const [, updateState] = useState();
@@ -7,8 +8,8 @@ const Board = ({ traitData }) => {
     const [activeTraits, setActiveTraits] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    // resets board
-    useEffect(() => {
+    // resets the board
+    const resetBoard = () => {
         var temp = Array(4);
         for (var i = 0; i < 4; i++) {
             temp[i] = Array(7)
@@ -17,6 +18,11 @@ const Board = ({ traitData }) => {
             }
         }
         setBoardState(temp);
+    }
+
+    // resets board on first render
+    useEffect(() => {
+        resetBoard();
     }, []);
 
     // Clears a hex
@@ -146,9 +152,9 @@ const Board = ({ traitData }) => {
                 ))}
             </div>
             <div className="traits">
-                {Object.keys(activeTraits).map((key) => {
-                    return <div key={key}>{`${key} : ${activeTraits[key]}`}</div>
-                })}
+                {traitData.filter((trait) => Object.keys(activeTraits).includes(trait.name)).map((trait) => (
+                    <Trait traitData={trait} numActive={activeTraits[trait.name]}/>
+                ))}
             </div>
         </div>
     );

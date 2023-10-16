@@ -23,6 +23,12 @@ const ignorableItems = [
     'TFT_Item_GrantTomeOfTraits',
     'TFT_Item_KnightsVow',
     'TFT_Item_TitanicHydra',
+    'TFT_Item_DebugBase',
+    'TFT_Item_DebugUnitID',
+    'TFT_Item_DebugShield',
+    'TFT_Item_DebugDamage',
+    'TFT_Item_DebugStun',
+    'TFT_Item_DebugMana'
 ]
 
 // Given the JSON file, extracts relevant info about the set's items
