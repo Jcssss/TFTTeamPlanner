@@ -5,7 +5,7 @@ import Trait from './Trait.js';
 const Board = ({ traitData }) => {
     const [, updateState] = useState();
     const [boardState, setBoardState] = useState([]);
-    const [activeUnits, setActiveUnits] = useState([]);
+    const [activeUnits, setActiveUnits] = useState({});
     const [activeTraits, setActiveTraits] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);
 
@@ -19,7 +19,7 @@ const Board = ({ traitData }) => {
             }
         }
         setBoardState(temp);
-        setActiveUnits([]);
+        setActiveUnits({});
         setActiveTraits({});
     }
 
@@ -43,10 +43,14 @@ const Board = ({ traitData }) => {
 
         // Updates the list of active traits
         traitsToRemove = temp[row][column].champData.traits;
+        var champName = temp[row][column].champData.name;
         temp[row][column].itemData.forEach((item) => {
             traitsToRemove = traitsToRemove.concat(item.incompatibleTraits)
         })
-        changeTraits(traitsToRemove, false);
+
+        if (activeUnits.hasOwnProperty(champName) && activeUnits[champName] === 1) {
+            changeTraits(traitsToRemove, false);
+        }
         changeUnits(temp[row][column].champData.name, false);
 
         // Clears the data for the target hex
@@ -70,15 +74,28 @@ const Board = ({ traitData }) => {
     }
 
     const changeUnits = (unitName, isAdding) => {
-        var curUnits = activeUnits;
+        var curActive = activeUnits;
 
-        if (isAdding) {
-            curUnits.push(unitName);
+        // If the trait exists in the list and should be incremented
+        if (isAdding && curActive.hasOwnProperty(unitName)) {
+            curActive[unitName] += 1;
+
+        // If the trait does not exist and should be incremented
+        } else if (isAdding) {
+            curActive[unitName] = 1;
+
+        // If the trait should be decremented
         } else {
-            curUnits = curUnits.filter(name => name !== unitName);
+            curActive[unitName] -= 1;
+
+            if (curActive[unitName] === 0) {
+                delete curActive[unitName];
+            }
         }
 
-        setActiveUnits(curUnits);
+        setActiveUnits(curActive);
+        
+
     }
 
     // Updates the list of active traits on the board
@@ -117,11 +134,14 @@ const Board = ({ traitData }) => {
         var items = hex.itemData;
 
         // checks whether the dropped component is unit
-        if (type === 'unit' && !activeUnits.includes(data.name)) {
+        if (type === 'unit') {
             hex.champData = data;
 
+            if (!activeUnits.hasOwnProperty(data.name)) {
+                changeTraits(data.traits, true);
+            }
+            
             changeUnits(data.name, true);
-            changeTraits(data.traits, true);
         
         // checks that the dropped component is an item and that the hex has a unit
         } else if (type === 'item' && champ !== null) {
