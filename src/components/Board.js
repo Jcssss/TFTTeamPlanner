@@ -5,6 +5,7 @@ import Trait from './Trait.js';
 const Board = ({ traitData }) => {
     const [, updateState] = useState();
     const [boardState, setBoardState] = useState([]);
+    const [activeUnits, setActiveUnits] = useState([]);
     const [activeTraits, setActiveTraits] = useState({});
     const forceUpdate = useCallback(() => updateState({}), []);
 
@@ -18,6 +19,8 @@ const Board = ({ traitData }) => {
             }
         }
         setBoardState(temp);
+        setActiveUnits([]);
+        setActiveTraits({});
     }
 
     // resets board on first render
@@ -25,10 +28,18 @@ const Board = ({ traitData }) => {
         resetBoard();
     }, []);
 
+    useEffect(() => {
+        console.log(activeTraits);
+    }, [activeTraits]);
+
     // Clears a hex
     const removeUnit = (row, column) => {
         var temp = boardState;
         var traitsToRemove = [];
+
+        if (!temp[row][column].champData) {
+            return;
+        }
 
         // Updates the list of active traits
         traitsToRemove = temp[row][column].champData.traits;
@@ -36,6 +47,7 @@ const Board = ({ traitData }) => {
             traitsToRemove = traitsToRemove.concat(item.incompatibleTraits)
         })
         changeTraits(traitsToRemove, false);
+        changeUnits(temp[row][column].champData.name, false);
 
         // Clears the data for the target hex
         temp[row][column].champData = null;
@@ -55,6 +67,18 @@ const Board = ({ traitData }) => {
 
         setBoardState(temp);
         forceUpdate();
+    }
+
+    const changeUnits = (unitName, isAdding) => {
+        var curUnits = activeUnits;
+
+        if (isAdding) {
+            curUnits.push(unitName);
+        } else {
+            curUnits = curUnits.filter(name => name !== unitName);
+        }
+
+        setActiveUnits(curUnits);
     }
 
     // Updates the list of active traits on the board
@@ -93,9 +117,10 @@ const Board = ({ traitData }) => {
         var items = hex.itemData;
 
         // checks whether the dropped component is unit
-        if (type === 'unit') {
+        if (type === 'unit' && !activeUnits.includes(data.name)) {
             hex.champData = data;
 
+            changeUnits(data.name, true);
             changeTraits(data.traits, true);
         
         // checks that the dropped component is an item and that the hex has a unit

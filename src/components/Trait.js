@@ -15,17 +15,24 @@ const Trait = ({ traitData, numActive }) => {
     }
 
     return (
-        <div className='trait-container'>
-            <div className='trait-header flex'>
-                <img className='trait-icon' src={baseUrl + traitData.img}></img>
-                <div className='trait-name'>{traitData.name}</div>
+        <div className='trait-container flex'>
+            <div 
+                className='trait-icon'
+                style={{
+                    backgroundImage: `url(${baseUrl + traitData.img})`,
+                }}
+            >
             </div>
-            <div className='trait-intervals flex'>
-            {
-                traitData.intervals.map((num, i) => {
-                    return createInterval(num, i)
-                })
-            }
+            <div className='trait-active'>{numActive}</div>
+            <div className='trait-body flex'>
+                <div className='trait-name'>{traitData.name}</div>
+                <div className='trait-intervals flex'>
+                {
+                    traitData.intervals.map((num, i) => {
+                        return createInterval(num, i)
+                    })
+                }
+                </div>
             </div>
         </div>
     );

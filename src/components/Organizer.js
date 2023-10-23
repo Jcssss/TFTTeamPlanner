@@ -68,6 +68,7 @@ const Organizer = ({ champions, items }) => {
                     <input 
                         className='search-field'
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder='Search by name...'
                     ></input>
                 </div>
             </div>

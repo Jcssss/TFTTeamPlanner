@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&display=swap');
 
+:root {
+    --light-tone: #e5bfff;
+    --light-highlight: #e5bfff;
+    --mid-tone: #b26be2;
+    --dark-tone: #3f0963;
+    --darker-tone: #31054f;
+    --dark-highlight: #200532;
+}
+
 .board {
     display: flex;
     --s: min(8vw, 100px);
@@ -23,7 +32,7 @@
 }
 
 .traits {
-    flex: 1
+    flex: 2;
 }
 
 .hex {
@@ -34,7 +43,7 @@
     font-size: initial;
     clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
     margin-bottom: calc(var(--m) - var(--s) * 0.2886);
-    background-color: black;
+    background-color: var(--light-tone);
 }
 
 .flex {
@@ -71,18 +80,25 @@
 }
 
 .filter-button.active {
-    background-color: lightblue;
+    background-color: var(--mid-tone);
 }
 
 .filter-button:hover {
-    background-color: rgb(199, 230, 240);
+    background-color: var(--light-highlight);
 }
 
 .search-field {
     margin-left: 10px;
     margin-right: 10px;
-    width: 70%;
+    width: 50%;
     border: none;
+    background: none;
+    color: var(--light-tone);
+    font-family: 'Gabarito';
+}
+
+.searh-field::placeholder {
+    color: var(--light-tone);
 }
 
 .search-field:focus {
@@ -95,13 +111,14 @@
 }
 
 .search-bar {
-    border-color: black;
+    border-color: var(--light-highlight);
     border-width: 2px;
     border-radius: 10px;
     border-style: solid;
     padding: 2px;
     width: 80%;
-    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .item {
@@ -167,11 +184,21 @@
     position: absolute;
     width: var(--s);
     height: calc(var(--s) * 1.1547);
-    background-color: white;
+    background-color: var(--dark-tone);
 }
 
-.blue {
-    background-color: lightblue;
+.trait-container {
+    --w: 2.5vw;
+    align-items: center;
+    color: var(--light-tone);
+    margin: 5px;
+}
+
+.traits {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    height: 100%;
 }
 
 .trait-header {
@@ -180,31 +207,60 @@
 }
 
 .trait-icon {
-    height: 20px;
-    width: 20px;
+    width: var(--w);
+    height: calc(var(--w) * 1.1547);
+    clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
+    border-style: none;
+    background-color: var(--dark-highlight);
 }
 
 .trait-name {
     font-family: 'Gabarito';
+    font-size: 100%;
     font-weight: 700;
-    padding-left: 5px;
+    padding-left: calc(var(--w));
+}
+
+.trait-active {
+    background-color: var(--dark-highlight);
+    z-index: 3;
+    font-family: 'Gabarito';
+    font-size: 18px;
+    height: calc(var(--w)  * 0.59);
+    width: calc(var(--w)  * 0.59);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: none;
 }
 
 .trait-intervals {
-    padding-left: 5px;
+    padding-left: calc(var(--w) * 0.7);
 }
 
 .trait-intervals > div {
     padding: 2px 5px 2px 5px;
     font-family: 'Gabarito';
+    font-size: 90%;
 }
 
 .trait-intervals > .highlight {
-    color: lightcoral;
+    color: var(--light-highlight);
 }
 
-.trait-container {
-    background-color: rgb(22,22,22);
-    color: white;
+.trait-body {
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--darker-tone);
+    position: relative;
+    left: calc(var(--w) / -2 - var(--w)  * 0.59);
+    height: calc(var(--w) * 1.1547);
+    clip-path: polygon(0% 0%, 0% 100%, 90% 100%, 100% 50%, 90% 0%);
+    padding: 1px 40px 1px 25px;
 }
 
