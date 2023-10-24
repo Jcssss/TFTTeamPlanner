@@ -19,8 +19,6 @@ const Item = ({ itemData }) => {
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: 'move',
-                height: '60px',
-                width: '60px',
                 backgroundImage: `url(${baseUrl + itemData.img})`,
                 backgroundSize: 'cover',
                 borderStyle: 'solid',

@@ -19,8 +19,6 @@ const Unit = ({ championData }) => {
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: 'move',
-                height: '60px',
-                width: '60px',
                 backgroundImage: `url(${baseUrl + championData.img})`,
                 backgroundSize: '120%',
                 backgroundPosition: '100% 0%',
