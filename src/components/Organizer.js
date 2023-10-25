@@ -52,7 +52,7 @@ const Organizer = ({ champions, items }) => {
     return (
         <div className='organizer-container'>
             <div className='organizer-header flex'>
-                <div className='filter flex'>
+                {<div className='filter flex'>
                     {displayStateOptions.map((state) => (
                         <div 
                             className={`filter-button ${(displayState === state)? 'active' : ''}`}
@@ -62,7 +62,7 @@ const Organizer = ({ champions, items }) => {
                             {state}
                         </div>
                     ))}
-                </div>
+                </div>}
                 <div className='search-bar'>
                     <FontAwesomeIcon className='search-icon' icon={faMagnifyingGlass}/>
                     <input 
@@ -72,9 +72,9 @@ const Organizer = ({ champions, items }) => {
                     ></input>
                 </div>
             </div>
-            <div className='img-container flex'>
-                { displayChampions() }
-                { displayItems() }
+            <div className='img-container'>
+                <div className='unit-images'>{ displayChampions() }</div>
+                <div className='item-images'>{ displayItems() }</div>
             </div>
         </div>
     );
