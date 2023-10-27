@@ -8,20 +8,22 @@
     --darker-tone: #31054f;
     --dark-highlight: #200532;
 
-    --s: min(7vw, 100px);
+    --s: min(7vw, 70px);
     --m: min(0.4vw, 5px);
     --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px); 
-    --draggable-width: min(5vw, 60px);
+    --draggable-width: min(5vw, 50px);
+
+    --w: max(2.5vw, 20px);
 }
 
 .board {
     display: flex;
+    
 }
 
 .container {
-    flex: 3.5;
     font-size: 0;
-    width: 1000px;
+    width: calc(8 * var(--s) + 8 * var(--m));
     padding: 0 2vw 0 2vw;
 }
 
@@ -119,7 +121,7 @@
     border-radius: 10px;
     border-style: solid;
     padding: 2px;
-    width: 80%;
+    width: min(80%, 500px);
     display: flex;
     align-items: center;
 }
@@ -132,7 +134,6 @@
 
 .unit-images {
     display: inline-flex;
-    row-gap: 0px;
     flex-wrap: wrap;
     width: 50%;
 }
@@ -141,7 +142,9 @@
     margin: 3px;
     position: relative;
     height: var(--draggable-width);
-    width: var(--draggable-width)
+    width: var(--draggable-width);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .item-name {
@@ -209,7 +212,6 @@
 }
 
 .trait-container {
-    --w: max(2.5vw, 38px);
     align-items: center;
     color: var(--light-tone);
     margin: 5px;
@@ -234,11 +236,6 @@
     background: var(--darker-tone);
 }
 
-.trait-header {
-    padding: 5px;
-    align-items: center;
-}
-
 .trait-icon {
     width: var(--w);
     height: calc(var(--w) * 1.1547);
@@ -253,7 +250,7 @@
 
 .trait-name {
     font-family: 'Gabarito';
-    font-size: 100%;
+    font-size: 80%;
     font-weight: 700;
     padding-left: calc(var(--w));
 }
@@ -262,7 +259,7 @@
     background-color: var(--dark-highlight);
     z-index: 3;
     font-family: 'Gabarito';
-    font-size: 18px;
+    font-size: 100%;
     height: calc(var(--w)  * 0.59);
     width: calc(var(--w)  * 0.59);
 
@@ -277,9 +274,9 @@
 }
 
 .trait-intervals > div {
-    padding: 2px 5px 2px 5px;
+    padding: 1px 3px 1px 3px;
     font-family: 'Gabarito';
-    font-size: 90%;
+    font-size: 70%;
 }
 
 .trait-intervals > .highlight {
@@ -294,6 +291,6 @@
     left: calc(var(--w) / -2 - var(--w)  * 0.59);
     height: calc(var(--w) * 1.1547);
     clip-path: polygon(0% 0%, 0% 100%, 90% 100%, 100% 50%, 90% 0%);
-    padding: 1px 40px 1px 25px;
+    padding: 1px 20px 1px 20px;
 }
 

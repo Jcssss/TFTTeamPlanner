@@ -29,7 +29,10 @@ function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className='App'>
-                <Board traitData={traits}/> 
+                <h1 style={{width: '100%', textAlign: 'center'}}>TFT Team Builder - Set 9.5</h1>
+                <div style={{ display: 'flex', justifyContent: 'center'}}>
+                    <Board traitData={traits}/> 
+                </div>
                 <Organizer 
                     champions={champions}
                     items={items}
