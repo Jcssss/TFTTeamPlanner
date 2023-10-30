@@ -14,7 +14,6 @@ const Item = ({ itemData }) => {
     return (
         <div
             ref={drag}
-            key={itemData.name}
             className = 'item'
             style={{
                 opacity: isDragging ? 0.5 : 1,
@@ -24,7 +23,6 @@ const Item = ({ itemData }) => {
                 borderStyle: 'solid',
                 borderWidth: '3px'
             }}
-            onClick = {() => console.log(itemData.apiName)}
             alt={itemData.name} 
         >
             <div className='item-name'>

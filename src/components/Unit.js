@@ -15,7 +15,6 @@ const Unit = ({ championData }) => {
         <div
             ref={drag}
             className = "unit"
-            key={championData.name}
             style={{
                 opacity: isDragging ? 0.5 : 1,
                 cursor: 'move',
@@ -27,7 +26,6 @@ const Unit = ({ championData }) => {
                 borderWidth: '3px'
             }}
             alt={championData.name} 
-            onClick={() => console.log(championData.traits)}
         >
             <div className='unit-name'>
                 {championData.name}

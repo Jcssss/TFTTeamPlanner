@@ -15,7 +15,7 @@ const Trait = ({ traitData, numActive }) => {
     }
 
     return (
-        <div className='trait-container flex'>
+        <div className='trait-container flex' key={traitData.name}>
             <div 
                 className='trait-icon'
                 style={{

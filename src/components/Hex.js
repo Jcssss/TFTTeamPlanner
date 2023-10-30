@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrop } from 'react-dnd';
 import { colours, baseUrl } from '../scripts/constants.js'
 
-const Hex = ({key, content, onDrop, removeItem, removeUnit, row, column}) => {
+const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
 
     const [{ isOver }, drop] = useDrop(
         () => ({
@@ -17,7 +17,7 @@ const Hex = ({key, content, onDrop, removeItem, removeUnit, row, column}) => {
     )
 
     return (
-        <span className="hex-container" key={key}>
+        <span className="hex-container">
             <div 
                 className='hex'
                 style={(content.champData !== null)? { 

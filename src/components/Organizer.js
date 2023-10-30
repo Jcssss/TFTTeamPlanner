@@ -29,9 +29,9 @@ const Organizer = ({ champions, items }) => {
 
             // filters the units based on the search filter
             return champions.filter(champ => filterDisplay(champ))
-                .map((champion) => {
-                    return <Unit championData={champion}/>
-                })
+                .map((champion) =>
+                    <Unit championData={champion} key={champion.name}/>
+                )
         }
     }
 
@@ -52,7 +52,7 @@ const Organizer = ({ champions, items }) => {
     return (
         <div className='organizer-container'>
             <div className='organizer-header flex'>
-                {<div className='filter flex'>
+                <div className='filter flex'>
                     {displayStateOptions.map((state) => (
                         <div 
                             className={`filter-button ${(displayState === state)? 'active' : ''}`}
@@ -62,7 +62,7 @@ const Organizer = ({ champions, items }) => {
                             {state}
                         </div>
                     ))}
-                </div>}
+                </div>
                 <div className='search-bar'>
                     <FontAwesomeIcon className='search-icon' icon={faMagnifyingGlass}/>
                     <input 

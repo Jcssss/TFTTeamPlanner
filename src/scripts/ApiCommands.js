@@ -35,7 +35,6 @@ const ignorableItems = [
 export const fetchItems = function(entireJson) {
     var imgName = ''
 
-    console.log(entireJson);
     return entireJson.items.map((item) => { 
         imgName = item.icon;
 

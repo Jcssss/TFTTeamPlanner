@@ -89,7 +89,7 @@
 }
 
 .filter-button:hover {
-    background-color: var(--light-highlight);
+    background-color: var(--dark-highlight);
 }
 
 .search-field {
@@ -219,7 +219,8 @@
 }
 
 .traits {
-    overflow: auto;
+    overflow-x:hidden;
+    overflow-y: auto;
     height: calc(2.1 * var(--f));
     transform: scaleX(-1);
 }
