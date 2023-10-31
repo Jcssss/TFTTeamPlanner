@@ -28,8 +28,30 @@ const ignorableItems = [
     'TFT_Item_DebugShield',
     'TFT_Item_DebugDamage',
     'TFT_Item_DebugStun',
-    'TFT_Item_DebugMana'
+    'TFT_Item_DebugMana',
+    'TFT_Item_FreeDeathblade'
 ]
+
+const replaceNames = {
+    'Marksman': 'Gunner',
+    'Armorclad':'Juggernaut',
+    'Preserver':'Invoker'
+}
+
+const substituteTraitNames = (item) => {
+    var incompatibleTraits = [];
+
+    item.incompatibleTraits.forEach((name) => {
+        name = name.split('_')[1];
+        if (name in replaceNames) {
+            incompatibleTraits.push(replaceNames[name]);
+        } else {
+            incompatibleTraits.push(name);
+        }
+    });
+
+    return incompatibleTraits;
+}
 
 // Given the JSON file, extracts relevant info about the set's items
 export const fetchItems = function(entireJson) {
@@ -55,7 +77,7 @@ export const fetchItems = function(entireJson) {
                         "composition": item.composition,
                         "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
                         "unique": item.unique,
-                        "incompatibleTraits": item.incompatibleTraits.map(trait => trait.split('_')[1])
+                        "incompatibleTraits": substituteTraitNames(item)
                     })
             }
         }

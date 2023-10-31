@@ -260,7 +260,11 @@ function App() {
             <MyPreview />
             <div className='App'>
                 <h1 style={{width: '100%', textAlign: 'center'}}>TFT Team Builder - Set 9.5</h1>
-                <h3 style={{width: '100%', textAlign: 'center'}} onClick={() => resetBoard()}>Reset Board</h3>
+                <div className='reset-container'>
+                    <h3 className='reset-button' onClick={() => resetBoard()}>
+                        Reset Board
+                    </h3>
+                </div>
                 <div style={{ display: 'flex', justifyContent: 'center'}}>
                     <Board 
                         boardState={boardState.current}

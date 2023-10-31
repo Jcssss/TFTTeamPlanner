@@ -11,8 +11,8 @@ const Organizer = ({ champions, items }) => {
 
     // Given the name of an item/champion, checks if the name matches
     // the search term
-    const filterDisplay = (name) => {
-        var nameOrigin = name.name.toLowerCase();
+    const filterDisplay = (data) => {
+        var nameOrigin = data.name.toLowerCase();
         var clippedName = nameOrigin.replace(/[^\w]/, '');
         var searchOrigin = searchTerm.toLowerCase()
         var clippedSearch = searchOrigin.replace(/[^\w]/, '');
@@ -28,10 +28,13 @@ const Organizer = ({ champions, items }) => {
         if (displayState === 'All' || displayState === 'Units') {
 
             // filters the units based on the search filter
-            return champions.filter(champ => filterDisplay(champ))
-                .map((champion) =>
-                    <Unit championData={champion} key={champion.name}/>
-                )
+            return <div className='unit-images'>
+                {champions.filter(champ => filterDisplay(champ))
+                    .map((champion) =>
+                        <Unit championData={champion} key={champion.name}/>
+                    )
+                }
+            </div>
         }
     }
 
@@ -42,10 +45,13 @@ const Organizer = ({ champions, items }) => {
         if (displayState === 'All' || displayState === 'Items') {
 
             // Filters the set of items based on the search term
-            return items.filter(item => filterDisplay(item))
-                .map((item) => 
-                    <Item itemData={item}></Item>
-                )
+            return <div className='item-images'>
+                {items.filter(item => filterDisplay(item))
+                    .map((item) => 
+                        <Item itemData={item} key={item.name}></Item>
+                    )
+                }
+            </div>
         }
     }
 
@@ -73,8 +79,8 @@ const Organizer = ({ champions, items }) => {
                 </div>
             </div>
             <div className='img-container'>
-                <div className='unit-images'>{ displayChampions() }</div>
-                <div className='item-images'>{ displayItems() }</div>
+                {displayChampions()}
+                {displayItems()}
             </div>
         </div>
     );
