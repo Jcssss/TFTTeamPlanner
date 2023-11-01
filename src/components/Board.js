@@ -28,6 +28,7 @@ const Board = ( props ) => {
                         traitData={props.traitData.filter((trait) =>
                             trait.name === traitName
                         )[0]} 
+                        key={traitName}
                         numActive={props.activeTraits[traitName]}
                     />
                 ))}

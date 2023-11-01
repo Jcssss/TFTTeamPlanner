@@ -205,7 +205,7 @@ function App() {
     }
 
     // Adds a unit or item to a hex
-    const onDrop = (type, data, row, column) => {
+    const addToHex = (type, data, row, column) => {
         var temp = boardState.current;
         var hex = temp[row][column];
         var champ = hex.champData;
@@ -255,6 +255,22 @@ function App() {
         forceUpdate();
     }
 
+    const addToFirstEmpty = (unitData) => {
+        var temp = boardState.current;
+        var row, column;
+
+        for (row = 0; row < 4; row++) {
+            for (column = 0; column < 7; column++) {
+                if (temp[row][column].champData == null) {
+                    addToHex('unit', unitData, row, column);
+                    return;
+                }
+            }
+        }
+
+        console.log('There are no empty hexes on the board.');
+    }
+
     return (
         <DndProvider backend={TouchBackend} options={options}>
             <MyPreview />
@@ -271,13 +287,14 @@ function App() {
                         traitData={traits}
                         removeUnit={removeUnit}
                         removeItem={removeItem}
-                        onDrop={onDrop}
+                        onDrop={addToHex}
                         activeTraits={activeTraits.current}
                     /> 
                 </div>
                 <Organizer 
                     champions={champions}
                     items={items}
+                    onUnitClick={addToFirstEmpty}
                 />
             </div>
         </DndProvider>

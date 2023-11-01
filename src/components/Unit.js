@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { colours, baseUrl } from '../scripts/constants.js';
 
-const Unit = ({ championData }) => {
+const Unit = ({ championData, onUnitClick }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'unit',
         item: { 'type': 'unit', 'data': championData },
@@ -26,6 +26,7 @@ const Unit = ({ championData }) => {
                 borderWidth: '3px'
             }}
             alt={championData.name} 
+            onClick={() => onUnitClick(championData)}
         >
             <div className='unit-name'>
                 {championData.name}

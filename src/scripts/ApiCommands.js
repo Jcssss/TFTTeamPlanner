@@ -134,5 +134,5 @@ export const fetchTraits = function(entireJson) {
         })
 
     // filters out the null values
-    }).filter(champ => champ);
+    }).filter(trait => trait);
 }

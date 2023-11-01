@@ -4,18 +4,18 @@ import { baseUrl }from '../scripts/constants.js';
 const Trait = ({ traitData, numActive }) => {
 
     const createInterval = (num, i) => {
-        return <>
+        return <React.Fragment key={num}>
             <div className={`arrow ${(numActive < num)? '':'highlight'}`}>
                 {(i !== 0)? '>' : ''}
             </div>
             <div className={`num ${(numActive < num)? '':'highlight'}`}>
                 {num}
             </div>
-        </>
+        </React.Fragment>
     }
 
     return (
-        <div className='trait-container flex' key={traitData.name}>
+        <div className='trait-container flex'>
             <div 
                 className='trait-icon'
                 style={{

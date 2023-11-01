@@ -4,7 +4,7 @@ import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Organizer = ({ champions, items }) => {
+const Organizer = ({ champions, items, onUnitClick }) => {
     const [displayState, setDisplayState] = useState('All');
     const [searchTerm, setSearchTerm] = useState('')
     const displayStateOptions = ['All', 'Items', 'Units'];
@@ -31,7 +31,11 @@ const Organizer = ({ champions, items }) => {
             return <div className='unit-images'>
                 {champions.filter(champ => filterDisplay(champ))
                     .map((champion) =>
-                        <Unit championData={champion} key={champion.name}/>
+                        <Unit 
+                            championData={champion} 
+                            key={champion.name}
+                            onUnitClick={onUnitClick}
+                        />
                     )
                 }
             </div>
