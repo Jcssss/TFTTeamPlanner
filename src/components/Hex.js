@@ -1,25 +1,43 @@
-import React from 'react';
-import { useDrop } from 'react-dnd';
-import { colours, baseUrl } from '../scripts/constants.js'
+import React, { useState } from 'react';
+import { useDrop, useDrag} from 'react-dnd';
+import { colours, baseUrl} from '../scripts/constants.js'
 
 const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
+    const [counter, setCounter] = useState(content);
 
-    const [{ isOver }, drop] = useDrop(
-        () => ({
-            accept: ['unit', 'item'], 
-            drop: (dropped) => {
-                onDrop(dropped.type, dropped.data, row, column)
-            },
-            collect: (monitor) => ({
-                isOver: !!monitor.isOver()
-            })
-        }),
-    )
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: ['unit', 'item', 'hex'], 
+        drop: (dropped) => {
+            setCounter((count) => count + 1)
+            onDrop(dropped.type, dropped.data, row, column)
+        },
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }));
+
+    const [, drag] = useDrag(() => ({
+        type: 'hex',
+        item: { 
+            'type': 'hex',
+            'data': {
+                'row': row,
+                'column': column,
+                'champData': {...content.champData},
+                'itemData': [...content.itemData],
+                'img': (content.champData)? content.champData.img : ''
+            }
+        },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging()
+        })
+    }), [counter]);
 
     return (
         <span className="hex-container">
             <div 
                 className='hex'
+                ref={drag}
                 style={(content.champData !== null)? { 
                     backgroundColor: colours[content.champData.cost],
                 }: {}}

@@ -11,7 +11,7 @@ const Board = ( props ) => {
                             return (<Hex 
                                 key={j}
                                 index={j}
-                                content={hexData} 
+                                content={hexData}
                                 onDrop={props.onDrop}
                                 removeUnit={props.removeUnit}
                                 removeItem={props.removeItem}

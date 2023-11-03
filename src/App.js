@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Board from './components/Board.js';
 import { DndProvider } from 'react-dnd' 
@@ -6,31 +6,17 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
 import Organizer from './components/Organizer.js';
 import { usePreview } from 'react-dnd-preview'
-import { baseUrl } from './/scripts/constants.js';
+import { useAsyncReference, baseUrl } from './/scripts/constants.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
 
 function App() {
-    // from https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/
-    const useAsyncReference = (value) => {
-        const ref = useRef(value);
-        const [, forceRender] = useState(false);
-      
-        function updateState(newState) {
-          if (!Object.is(ref.current, newState)) {
-            ref.current = newState;
-            forceRender(s => !s);
-          }
-        }
-      
-        return [ref, updateState];
-    }
-
     const [, updateState] = useState();
     const [boardState, setBoardState] = useAsyncReference([]);
     const [activeUnits, setActiveUnits] = useAsyncReference({});
     const [activeTraits, setActiveTraits] = useAsyncReference({});
+    const [errorMessage, setErrorMessage] = useAsyncReference('');
     const forceUpdate = useCallback(() => updateState({}), []);
 
     const [augments, setAugments] = useState([]);
@@ -53,6 +39,7 @@ function App() {
             style={{
                 ...style,
                 backgroundImage: `url(${baseUrl + item.data.img})`,
+                backgroundColor: 'yellow',
                 height: 'min(5vw, 50px)',
                 width: 'min(5vw, 50px)',
                 backgroundSize: (itemType === 'unit')? '120%' : '100%',
@@ -210,58 +197,69 @@ function App() {
         var hex = temp[row][column];
         var champ = hex.champData;
         var items = hex.itemData;
+        var error = '';
 
         // checks if unit and that the hex is empty
-        if (type === 'unit' && champ == null) {
-            hex.champData = data;
+        if (type === 'unit') {
+            if (champ !== null) {
+                error = 'Units can only be placed on empty hexes';
+            } else {
+                hex.champData = {...data};
 
-            // If this is the first instance of unit, updates traits
-            if (!activeUnits.current.hasOwnProperty(data.name)) {
-                changeTraits(data.traits, true);
+                // If this is the first instance of unit, updates traits
+                if (!activeUnits.current.hasOwnProperty(data.name)) {
+                    changeTraits(data.traits, true);
+                }
+                changeUnits(data.name, true);
             }
-            changeUnits(data.name, true);
         
         // checks if item and that the hex has a unit
-        } else if (type === 'item' && champ !== null) {
+        } else if (type === 'hex') {
+            if (champ !== null) {
+                error = 'Units can only be moved to empty hexes';
+            } else {
+                moveHex(data, data.row, data.column, row, column);
+            }
 
+        } else if (type === 'item') {
+            if (champ === null) {
+                error = 'Items can only be placed on hexes with units.';
             // checks if there are too many items (max 3)
-            if (items.length > 2){
-                console.log('This unit cannot hold another item.');
-                return;
+            } else if (items.length > 2){
+                error = 'That unit cannot hold another item.';
 
             // checks if the item is an invalid emblem
             // (emblems cannot be dropped on units that already have the trait)
             } else if (data.incompatibleTraits.some((trait) => champ.traits.includes(trait))) {
-                console.log('This unit already has that trait.');
-                return;
+                error = 'This unit already has that trait.';
 
             // checks if the item is unique. 
             // If it is unique confirms that the item isn't already assigned
             } else if (data.unique && items.some((item) => item.name === data.name)) {
-                console.log('A unit can only have one of that item.');
-                return;
+                error = 'A unit can only have one of that item.';
             
             // Checks that the unit can hold items
             } else if (hex.champData.traits.length === 0) {
-                console.log('This unit cannot hold any items');
-                return;
-            }
+                error = 'This unit cannot hold any items';
             
-            hex.itemData.push(data);
-            changeTraits(data.incompatibleTraits, true);
+            } else {
+                hex.itemData.push({...data});
+                changeTraits(data.incompatibleTraits, true);
+            }
         }
 
+        setErrorMessage(error);
         setBoardState(temp);
         forceUpdate();
     }
 
     const addToFirstEmpty = (unitData) => {
-        var temp = boardState.current;
+        var board = boardState.current;
         var row, column;
 
         for (row = 0; row < 4; row++) {
             for (column = 0; column < 7; column++) {
-                if (temp[row][column].champData == null) {
+                if (board[row][column].champData == null) {
                     addToHex('unit', unitData, row, column);
                     return;
                 }
@@ -269,6 +267,24 @@ function App() {
         }
 
         console.log('There are no empty hexes on the board.');
+    }
+
+    const moveHex = (hexData, oldRow, oldCol, newRow, newCol) => {
+        var board = boardState.current;
+
+        board[newRow][newCol].champData = {...hexData.champData};
+
+        board[oldRow][oldCol].itemData.forEach((item) => {
+            board[newRow][newCol].itemData.push({...item})
+        });
+
+        board[oldRow][oldCol] = {
+            'champData': null,
+            'itemData': []
+        };
+        
+        setBoardState(board);
+        forceUpdate();
     }
 
     return (
@@ -281,6 +297,7 @@ function App() {
                         Reset Board
                     </h3>
                 </div>
+                <h4 className='errorMessage'>{errorMessage.current}</h4>
                 <div style={{ display: 'flex', justifyContent: 'center'}}>
                     <Board 
                         boardState={boardState.current}

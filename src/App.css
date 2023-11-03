@@ -16,6 +16,13 @@
     --w: max(2.5vw, 28px);
 }
 
+.errorMessage {
+    width: 100%;
+    text-align: center;
+    color: rgb(238, 10, 10);
+    margin: 10px 0px 15px 0px;
+}
+
 .board {
     display: flex;
 }
