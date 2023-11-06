@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Unit from './Unit.js';
 import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -6,8 +6,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Organizer = ({ champions, items, onUnitClick }) => {
     const [displayState, setDisplayState] = useState('All');
+    const [viewportState, setviewportState] = useState('mobile');
     const [searchTerm, setSearchTerm] = useState('')
-    const displayStateOptions = ['All', 'Items', 'Units'];
+    const displayStateOptions = {
+        'desktop': ['All', 'Units', 'Items'],
+        'mobile': ['Units', 'Items']
+    }
+
+    useEffect(() => {
+        window.addEventListener("resize", detectWidth);
+        detectWidth();
+    }, []);
+
+    const detectWidth = () => {
+        if (window.innerWidth < 700) {
+            setviewportState('mobile');
+            setDisplayState('Units');
+        } else {
+            setviewportState('desktop');
+        }
+    }
 
     // Given the name of an item/champion, checks if the name matches
     // the search term
@@ -63,7 +81,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
         <div className='organizer-container'>
             <div className='organizer-header flex'>
                 <div className='filter flex'>
-                    {displayStateOptions.map((state) => (
+                    {displayStateOptions[viewportState].map((state) => (
                         <div 
                             className={`filter-button ${(displayState === state)? 'active' : ''}`}
                             onClick={() => setDisplayState(state)}

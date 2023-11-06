@@ -48,6 +48,9 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                         e.preventDefault();
                         removeUnit(row,column)
                     }}
+                    onClick={() =>
+                        removeUnit(row,column)
+                    }
                     ref={drop}
                     style={(content.champData !== null)? { 
                         backgroundImage: `url(${baseUrl + content.champData.img})`,
@@ -58,9 +61,10 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                 >
                 </div>
             </div>
-            <div className="hex-items">
+            <div className="hex-items-container">
                 {content.itemData.map((item, i) => (
                     <img
+                        className='hex-items'
                         alt={item.name}
                         key={i}
                         src={`${baseUrl + item.img}`}
@@ -68,12 +72,8 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                             e.preventDefault()
                             removeItem(item.name, row, column)
                         }}
-                        style={{ 
-                            height: '16px',
-                            width: '16px',
-                            borderWidth: '1px',
-                            borderColor: 'black',
-                            borderStyle: 'solid'
+                        onClick={() => {
+                            removeItem(item.name, row, column)
                         }}
                     ></img>
                 ))}

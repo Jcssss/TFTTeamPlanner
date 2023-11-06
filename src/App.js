@@ -23,7 +23,7 @@ function App() {
     const [champions, setChampions] = useState([]);
     const [traits, setTraits] = useState([]);
     const [items, setItems] = useState([]);
-
+    
     const options = {
         enableMouseEvents: true,
     }
@@ -266,7 +266,7 @@ function App() {
             }
         }
 
-        console.log('There are no empty hexes on the board.');
+        setErrorMessage('There are no empty hexes on the board.');
     }
 
     const moveHex = (hexData, oldRow, oldCol, newRow, newCol) => {
@@ -291,7 +291,7 @@ function App() {
         <DndProvider backend={TouchBackend} options={options}>
             <MyPreview />
             <div className='App'>
-                <h1 style={{width: '100%', textAlign: 'center'}}>TFT Team Builder - Set 9.5</h1>
+                <h1 className='page-title'>TFT Team Builder - Set 9.5</h1>
                 <div className='reset-container'>
                     <h3 className='reset-button' onClick={() => resetBoard()}>
                         Reset Board
