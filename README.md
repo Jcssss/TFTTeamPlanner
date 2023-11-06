@@ -1,5 +1,5 @@
 # TFT Team Builder
-A responsive team builder for Riot Games' Teamfight Tactics. This project was built using React JS.
+A responsive team builder for Riot Games' Teamfight Tactics. This project was built using React JS. This project is hosted using github pages, the live version of the app can be found [here](jcssss.github.io/TFTCompPlanner/).
 
 For more information about Teamfight Tactics, you can visit the [Riot Games Official Website](https://teamfighttactics.leagueoflegends.com/en-us/)
 
