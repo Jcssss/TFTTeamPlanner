@@ -11,9 +11,9 @@
     --s: min(7vw, 70px);
     --m: min(0.4vw, 5px);
     --f: calc(var(--s) * 1.732 + 4 * var(--m) - 1px); 
-    --draggable-width: clamp(22px, 5vw, 45px);
+    --draggable-width: clamp(25px, 6vw, 45px);
 
-    --w: max(2.5vw, 20px);
+    --w: max(4vw, 20px);
 }
 
 .page-title {
@@ -277,7 +277,6 @@
 
 .traits::-webkit-scrollbar {
     width: 10px;
-    height: 10px;
 }
 
 .traits::-webkit-scrollbar-track {
@@ -377,6 +376,10 @@
         font-size: 10px;
     }
 
+    .search-bar {
+        margin-top: 10px;
+    }
+
     .unit-images {
         justify-content: flex-start;
     }
@@ -408,12 +411,16 @@
         height: calc(var(--w) * 1.1547);
     }
 
+    .traits::-webkit-scrollbar {
+        width: 5px;
+    }
+
     .trait-intervals {
         display: none;
     }
 
     .trait-active {
-        font-size: 80%;
+        font-size: 70%;
     }
 
     .trait-body {
@@ -424,8 +431,12 @@
 
 @media only screen and (max-width: 400px) {
     .trait-name {
-        font-size: 50%;
+        font-size: 30%;
         font-weight: 300;
+    }
+
+    .trait-body {
+        padding: 0px 10px 0px 7px;
     }
 }
 
