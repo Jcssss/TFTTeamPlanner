@@ -1,6 +1,7 @@
 import Hex from './Hex.js';
 import Trait from './Trait.js';
 
+// The board holding the hexes and the traits
 const Board = ( props ) => {
     return (
         <div className='board'>

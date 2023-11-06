@@ -2,6 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { colours, baseUrl } from '../scripts/constants.js';
 
+// A unit image that can be dragged
 const Unit = ({ championData, onUnitClick }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'unit',

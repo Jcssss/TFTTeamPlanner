@@ -4,6 +4,7 @@ import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// The organizer for units and items. Built with preset and search filters
 const Organizer = ({ champions, items, onUnitClick }) => {
     const [displayState, setDisplayState] = useState('All');
     const [viewportState, setviewportState] = useState('mobile');
@@ -13,11 +14,13 @@ const Organizer = ({ champions, items, onUnitClick }) => {
         'mobile': ['Units', 'Items']
     }
 
+    // sets a resize event listener
     useEffect(() => {
         window.addEventListener("resize", detectWidth);
         detectWidth();
     }, []);
 
+    // based on the screen width, adjust settings
     const detectWidth = () => {
         if (window.innerWidth < 700) {
             setviewportState('mobile');
@@ -27,8 +30,11 @@ const Organizer = ({ champions, items, onUnitClick }) => {
         }
     }
 
-    // Given the name of an item/champion, checks if the name matches
-    // the search term
+    /*
+    Given the name of an item/champion, checks if the name matches
+    the search term. Searching Az'ir will return Azir and searching
+    Reksai will return Rek'sai.
+    */
     const filterDisplay = (data) => {
         var nameOrigin = data.name.toLowerCase();
         var clippedName = nameOrigin.replace(/[^\w]/, '');
@@ -92,7 +98,10 @@ const Organizer = ({ champions, items, onUnitClick }) => {
                     ))}
                 </div>
                 <div className='search-bar'>
-                    <FontAwesomeIcon className='search-icon' icon={faMagnifyingGlass}/>
+                    <FontAwesomeIcon 
+                        className='search-icon' 
+                        icon={faMagnifyingGlass}
+                    />
                     <input 
                         className='search-field'
                         onChange={(e) => setSearchTerm(e.target.value)}

@@ -32,17 +32,22 @@ const ignorableItems = [
     'TFT_Item_FreeDeathblade'
 ]
 
+// Renames certain traits from the API for debugging
 const replaceNames = {
     'Marksman': 'Gunner',
     'Armorclad':'Juggernaut',
     'Preserver':'Invoker'
 }
 
+// Replaces trait names with their correct counterparts
 const substituteTraitNames = (item) => {
     var incompatibleTraits = [];
 
+    // For each of the items traits
     item.incompatibleTraits.forEach((name) => {
         name = name.split('_')[1];
+
+        // If a replacement exists replace it
         if (name in replaceNames) {
             incompatibleTraits.push(replaceNames[name]);
         } else {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { baseUrl } from '../scripts/constants.js';
 
+// An item image stored in the organizer
 const Item = ({ itemData }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'item',

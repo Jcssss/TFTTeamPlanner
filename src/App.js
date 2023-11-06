@@ -5,8 +5,8 @@ import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
 import Organizer from './components/Organizer.js';
-import { usePreview } from 'react-dnd-preview'
-import { useAsyncReference, baseUrl } from './/scripts/constants.js';
+import { useAsyncReference } from './/scripts/constants.js';
+import MyPreview from './components/Preview.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
@@ -19,38 +19,14 @@ function App() {
     const [errorMessage, setErrorMessage] = useAsyncReference('');
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    const [augments, setAugments] = useState([]);
+    //const [augments, setAugments] = useState([]);
     const [champions, setChampions] = useState([]);
     const [traits, setTraits] = useState([]);
     const [items, setItems] = useState([]);
-    
+
     const options = {
         enableMouseEvents: true,
-    }
-
-    const MyPreview = () => {
-        const preview = usePreview()
-        if (!preview.display) {
-          return null
-        }
-        const {itemType, item, style} = preview;
-        return <div 
-            className="item-list__item" 
-            style={{
-                ...style,
-                backgroundImage: `url(${baseUrl + item.data.img})`,
-                backgroundColor: 'yellow',
-                height: 'min(5vw, 50px)',
-                width: 'min(5vw, 50px)',
-                backgroundSize: (itemType === 'unit')? '120%' : '100%',
-                backgroundPosition: (itemType === 'unit')? '100% 0%' : '0% 0%',
-                zIndex: 10,
-                cursor: 'move',
-                opacity: 0.5,
-            }}
-        >
-        </div>
-    }
+    } 
 
     // fetches and loads necessary data
     useEffect(() => {
@@ -61,6 +37,8 @@ function App() {
             setItems(fetchItems(res));
             setTraits(fetchTraits(res));
         });
+
+        resetBoard();
     }, []);
 
     // resets the board
@@ -77,11 +55,6 @@ function App() {
         setActiveTraits({});
     }
 
-    // resets board on first render
-    useEffect(() => {
-        resetBoard();
-    }, []);
-
     // Clears a hex
     const removeUnit = (row, column) => {
         var tempBoard = boardState.current;
@@ -89,6 +62,7 @@ function App() {
         var traitsToRemove = [];
         var champName = '';
 
+        // Confirms that the hex has something to clear
         if (!tempBoard[row][column].champData) {
             return;
         }
@@ -98,7 +72,8 @@ function App() {
         champName = tempBoard[row][column].champData.name;
 
         // Removes unit traits if single instance of unit on board
-        if (tempActUnits.hasOwnProperty(champName) && tempActUnits[champName] === 1) {
+        if (tempActUnits.hasOwnProperty(champName) && 
+            tempActUnits[champName] === 1) {
             traitsToRemove = tempBoard[row][column].champData.traits;
         }
 
@@ -213,17 +188,23 @@ function App() {
                 changeUnits(data.name, true);
             }
         
-        // checks if item and that the hex has a unit
+        // checks if hex and moves hex accordingly
         } else if (type === 'hex') {
+            
+            // checks that the hex has a unit
             if (champ !== null) {
                 error = 'Units can only be moved to empty hexes';
             } else {
                 moveHex(data, data.row, data.column, row, column);
             }
-
+        
+        // checks if item and that the hex has a unit
         } else if (type === 'item') {
+            
+            // checks that the hex has a unit
             if (champ === null) {
                 error = 'Items can only be placed on hexes with units.';
+            
             // checks if there are too many items (max 3)
             } else if (items.length > 2){
                 error = 'That unit cannot hold another item.';
@@ -253,10 +234,12 @@ function App() {
         forceUpdate();
     }
 
+    // finds the first available hex and adds the unit to that hex
     const addToFirstEmpty = (unitData) => {
         var board = boardState.current;
         var row, column;
 
+        // finds the first empty hex and gets its row and column
         for (row = 0; row < 4; row++) {
             for (column = 0; column < 7; column++) {
                 if (board[row][column].champData == null) {
@@ -269,15 +252,19 @@ function App() {
         setErrorMessage('There are no empty hexes on the board.');
     }
 
+    // moves data from one hex to another hex
     const moveHex = (hexData, oldRow, oldCol, newRow, newCol) => {
         var board = boardState.current;
 
+        // copies over the unit
         board[newRow][newCol].champData = {...hexData.champData};
 
+        // copies over items
         board[oldRow][oldCol].itemData.forEach((item) => {
             board[newRow][newCol].itemData.push({...item})
         });
 
+        // clears original hex
         board[oldRow][oldCol] = {
             'champData': null,
             'itemData': []
@@ -293,7 +280,10 @@ function App() {
             <div className='App'>
                 <h1 className='page-title'>TFT Team Builder - Set 9.5</h1>
                 <div className='reset-container'>
-                    <h3 className='reset-button' onClick={() => resetBoard()}>
+                    <h3 
+                        className='reset-button' 
+                        onClick={() => resetBoard()}
+                    >
                         Reset Board
                     </h3>
                 </div>

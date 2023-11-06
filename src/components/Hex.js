@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDrop, useDrag} from 'react-dnd';
 import { colours, baseUrl} from '../scripts/constants.js'
 
+// A hex on the board
 const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
     const [counter, setCounter] = useState(content);
 
@@ -43,7 +44,8 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                 }: {}}
             >
                 <div
-                    className = {`hex-unit ${(isOver)? 'blue' : ''}`}
+                    className = {`hex-unit ${(isOver)? 'hovered' : ''}`}
+                    ref={drop}
                     onContextMenu={(e) => {
                         e.preventDefault();
                         removeUnit(row,column)
@@ -51,7 +53,6 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                     onClick={() =>
                         removeUnit(row,column)
                     }
-                    ref={drop}
                     style={(content.champData !== null)? { 
                         backgroundImage: `url(${baseUrl + content.champData.img})`,
                         backgroundSize: '135%',

@@ -1,8 +1,10 @@
 import React from 'react';
 import { baseUrl }from '../scripts/constants.js';
 
+// A trait rendered in the Board component
 const Trait = ({ traitData, numActive }) => {
 
+    // Renders the intervals for the given Trait
     const createInterval = (num, i) => {
         return <React.Fragment key={num}>
             <div className={`arrow ${(numActive < num)? '':'highlight'}`}>
