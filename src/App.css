@@ -443,7 +443,6 @@
     }
 
     .trait-intervals {
-        font-size: 90%;
         margin-left: calc(1px + 5vw);
         padding: 0;
         align-items: center;
@@ -494,7 +493,7 @@
     }
 
     .trait-name {
-        font-size: 54%;
+        font-size: 7px;
         margin: 0;
     }
 
@@ -510,8 +509,8 @@
         padding-bottom: 0;
     }
 
-    .trait-intervals > div{
-        font-size: 8%;
+    .trait-intervals > div {
+        font-size: 20%;
         padding-top: 0;
         padding-bottom: 0;
     }
