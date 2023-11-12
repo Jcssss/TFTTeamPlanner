@@ -490,7 +490,7 @@
 
 @media only screen and (max-width: 400px) {
     :root {
-        --trait-icon-width: 6vw;
+        --trait-icon-width: 7vw;
     }
 
     .trait-name {
