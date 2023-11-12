@@ -29,7 +29,8 @@ const ignorableItems = [
     'TFT_Item_DebugDamage',
     'TFT_Item_DebugStun',
     'TFT_Item_DebugMana',
-    'TFT_Item_FreeDeathblade'
+    'TFT_Item_FreeDeathblade',
+    'TFT_Item_DebugCrit',
 ]
 
 // Renames certain traits from the API for debugging

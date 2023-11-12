@@ -3,10 +3,11 @@ import Unit from './Unit.js';
 import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAsyncReference } from '../scripts/constants.js';
 
 // The organizer for units and items. Built with preset and search filters
 const Organizer = ({ champions, items, onUnitClick }) => {
-    const [displayState, setDisplayState] = useState('All');
+    const [displayState, setDisplayState] = useAsyncReference('All');
     const [viewportState, setviewportState] = useState('mobile');
     const [searchTerm, setSearchTerm] = useState('')
     const displayStateOptions = {
@@ -24,7 +25,9 @@ const Organizer = ({ champions, items, onUnitClick }) => {
     const detectWidth = () => {
         if (window.innerWidth < 700) {
             setviewportState('mobile');
-            setDisplayState('Units');
+            if (displayState.current == 'All') {
+                setDisplayState('Units');
+            }
         } else {
             setviewportState('desktop');
         }
@@ -49,7 +52,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
     const displayChampions = () => {
 
         // Checks if units should be shown
-        if (displayState === 'All' || displayState === 'Units') {
+        if (['All', 'Units'].includes(displayState.current)) {
 
             // filters the units based on the search filter
             return <div className='unit-images'>
@@ -70,7 +73,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
     const displayItems = () => {
 
         // Checks if items should be displayed
-        if (displayState === 'All' || displayState === 'Items') {
+        if (['All', 'Items'].includes(displayState.current)) {
 
             // Filters the set of items based on the search term
             return <div className='item-images'>
@@ -89,7 +92,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
                 <div className='filter flex'>
                     {displayStateOptions[viewportState].map((state) => (
                         <div 
-                            className={`filter-button ${(displayState === state)? 'active' : ''}`}
+                            className={`filter-button ${(displayState.current === state)? 'active' : ''}`}
                             onClick={() => setDisplayState(state)}
                             key={state}
                         >

@@ -9,12 +9,12 @@
     --darker-tone: #31054f;
     --dark-highlight: #200532;
 
-    --hex-width: min(7vw, 70px);
+    --hex-width: clamp(35px, 7vw, 70px);
     --hex-margin: min(0.4vw, 5px);
     --gradient-calc: calc(var(--hex-width) * 1.732 + 4 * var(--hex-margin) - 1px); 
-    --draggable-width: clamp(25px, 6vw, 45px);
+    --draggable-width: clamp(33px, 6vw, 45px);
 
-    --trait-icon-width: max(3vw, 20px);
+    --trait-icon-width: max(4vw, 30px);
 }
 
 .flex {
@@ -137,10 +137,12 @@
     color: var(--light-tone);
     margin: 5px;
     transform: scaleX(-1);
+    margin-left: -11px;
 }
 
 .traits::-webkit-scrollbar {
     width: 10px;
+    height: 5px;
 }
 
 .traits::-webkit-scrollbar-track {
@@ -380,7 +382,15 @@
     }
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 600px) {
+    :root {
+        --hex-width: 10vw;
+    }
+
+    .board {
+        flex-direction: column;
+        align-items: center;
+    }
 
     .page-title {
         font-size: 20px;
@@ -395,6 +405,10 @@
         margin-top: 10px;
     }
 
+    .img-container {
+        padding-left: 10px;
+    }
+
     .unit-images {
         justify-content: flex-start;
     }
@@ -402,6 +416,7 @@
     .reset-button {
         font-size: 12px;
         margin: 0px 0px 5px 0px;
+        width: 100px;
     }
 
     .organizer-header {
@@ -421,17 +436,26 @@
         display: none;
     }
 
-    .trait-icon {
-        width: var(--trait-icon-width);
-        height: calc(var(--trait-icon-width) * 1.1547);
+    .trait-name {
+        font-size: 60%;
+        margin-bottom: 1px;
+    }
+
+    .trait-intervals {
+        font-size: 90%;
+        margin-left: calc(2px + 5vw);
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .trait-intervals > div {
+        padding: 1px 2px 1px 2px;
+        opacity: 30%;
     }
 
     .traits::-webkit-scrollbar {
         width: 5px;
-    }
-
-    .trait-intervals {
-        display: none;
     }
 
     .trait-active {
@@ -441,32 +465,52 @@
     .trait-body {
         clip-path: polygon(0% 0%, 0% 100%, 90% 100%, 100% 50%, 90% 0%);
         padding: 1px 15px 1px 12px;
+        width: max(20vw, 100px);
+        text-align: center;
+    }
+
+    .traits {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        width: 80vw;
+        margin-top: 4vw;
+        padding-right: -30px;
+    }
+
+    .trait-container {
+        flex-shrink: 0;
+        width: max(40vw, 200px);
+        margin-left: -15%;
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 400px) {
+    :root {
+        --trait-icon-width: 6vw;
+    }
+
     .trait-name {
-        font-size: 40%;
-        font-weight: 300;
+        font-size: 54%;
+        margin: 0;
+    }
+
+    .trait-container {
+        flex-shrink: 0;
+        width: 180px;
+        margin-left: -60px;
     }
 
     .trait-body {
-        padding: 0px 10px 0px 7px;
+        width: 80px;
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
-    .reset-button {
-        width: 100px;
-    }
-}
-
-@media only screen and (max-width: 325px) {
-    .trait-name {
-        display: none;
-    }
-
-    .trait-body {
-        width: 10px;
-        clip-path: polygon(0% 0%, 0% 100%, 80% 100%, 100% 75%, 100% 25%, 80% 0%);
+    .trait-intervals > div{
+        font-size: 8%;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
-
