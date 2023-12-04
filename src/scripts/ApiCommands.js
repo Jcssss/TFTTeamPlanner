@@ -31,17 +31,44 @@ const ignorableItems = [
     'TFT_Item_DebugMana',
     'TFT_Item_FreeDeathblade',
     'TFT_Item_DebugCrit',
+    'TFT_Item_GrantOrnnAnvil',
+    'TFT10_Item_DJ_Mode1',
+    'TFT10_Item_DJ_Mode2',
+    'TFT10_Item_DJ_Mode3',
 ]
 
 // Renames certain traits from the API for debugging
 const replaceNames = {
-    'Marksman': 'Gunner',
-    'Armorclad':'Juggernaut',
-    'Preserver':'Invoker'
+    9.5 : {
+        'Marksman': 'Gunner',
+        'Armorclad':'Juggernaut',
+        'Preserver':'Invoker'
+    },
+    10: {
+        'CrowdDive': 'Crowd Diver',
+        'PopBand': 'Heartsteel',
+        'Funk': 'Disco',
+        'Deadeye': 'Big Shot',
+        'Brawler': 'Bruiser',
+        'Quickshot': 'Rapidfire',
+        'Fighter': 'Mosher',
+        'PunkRock': 'Punk',
+        'KDA': 'K/DA',
+        '8Bit': '8-bit',
+        'TrueDamage': 'True Damage'
+    }
 }
 
+const convertSetToString = (setNumber) => {
+    let setString = `TFTSet${Math.floor(setNumber)}`;
+    if (Math.floor(setNumber) !== setNumber) {
+        setString = setString + '_Stage2';
+    }
+    return setString;
+};
+
 // Replaces trait names with their correct counterparts
-const substituteTraitNames = (item) => {
+const substituteTraitNames = (item, currentSet) => {
     var incompatibleTraits = [];
 
     // For each of the items traits
@@ -49,25 +76,25 @@ const substituteTraitNames = (item) => {
         name = name.split('_')[1];
 
         // If a replacement exists replace it
-        if (name in replaceNames) {
-            incompatibleTraits.push(replaceNames[name]);
+        if (name in replaceNames[currentSet]) {
+            incompatibleTraits.push(replaceNames[currentSet][name]);
         } else {
             incompatibleTraits.push(name);
         }
     });
-
+    
     return incompatibleTraits;
 }
 
 // Given the JSON file, extracts relevant info about the set's items
-export const fetchItems = function(entireJson) {
+export const fetchItems = function(entireJson, currentSet) {
     var imgName = ''
 
     return entireJson.items.map((item) => { 
         imgName = item.icon;
 
         // Filters items from the current set or in the general bin
-        if (item.apiName.includes('TFT9_Item') || item.apiName.includes('TFT_Item')) {
+        if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`) || item.apiName.includes('TFT_Item')) {
 
             // Filters out unwanted items
             if( item.name != null && 
@@ -83,7 +110,7 @@ export const fetchItems = function(entireJson) {
                         "composition": item.composition,
                         "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
                         "unique": item.unique,
-                        "incompatibleTraits": substituteTraitNames(item)
+                        "incompatibleTraits": substituteTraitNames(item, currentSet)
                     })
             }
         }
@@ -94,12 +121,17 @@ export const fetchItems = function(entireJson) {
 }
 
 // Given the entire JSON, extracts info about the set's units
-export const fetchUnits = function(entireJson) {
+export const fetchUnits = function(entireJson, currentSet) {
     var addedUnits = [];
     var imgName = '';
+    var setString = convertSetToString(currentSet);
+
+    var setData = entireJson.setData.filter((set) => {
+        return set.mutator == setString
+    })[0];
 
     // takes the latest data on champions and iterates through them
-    return entireJson.setData['0'].champions.map((champion) => {
+    return setData.champions.map((champion) => {
 
         // Removes unnecessary units
         if (!Object.values(champion.stats).includes(null) && 
@@ -125,11 +157,16 @@ export const fetchUnits = function(entireJson) {
 }
 
 // Given the entire JSON, extracts info about the set's traits
-export const fetchTraits = function(entireJson) {
+export const fetchTraits = function(entireJson, currentSet) {
     var imgName = '';
+    var setString = convertSetToString(currentSet);
+
+    var setData = entireJson.setData.filter((set) => {
+        return set.mutator == setString
+    })[0];
 
     // takes the latest data on traits and iterates through them
-    return entireJson.setData['0'].traits.map((trait) => {
+    return setData.traits.map((trait) => {
         imgName = trait.icon;
 
         // Extracts relevant data about the trait

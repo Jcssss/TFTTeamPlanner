@@ -14,7 +14,7 @@
     --gradient-calc: calc(var(--hex-width) * 1.732 + 4 * var(--hex-margin) - 1px); 
     --draggable-width: clamp(33px, 6vw, 45px);
 
-    --trait-icon-width: max(4vw, 30px);
+    --trait-icon-width: clamp(30px, 4vw, 50px);
 }
 
 .flex {
@@ -169,7 +169,7 @@
     font-family: 'Gabarito';
     font-size: 70%;
     font-weight: 700;
-    padding-left: calc(var(--trait-icon-width));
+    padding-left: calc(var(--trait-icon-width) * 0.9);
 }
 
 .trait-active {
@@ -489,11 +489,11 @@
 
 @media only screen and (max-width: 400px) {
     :root {
-        --trait-icon-width: 7vw;
+        --trait-icon-width: 8vw;
     }
 
     .trait-name {
-        font-size: 7px;
+        font-size: 8px;
         margin: 0;
     }
 
@@ -503,7 +503,7 @@
     }
 
     .trait-body {
-        width: 80px;
+        width: 90px;
         text-align: center;
         padding-top: 0;
         padding-bottom: 0;

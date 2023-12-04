@@ -17,6 +17,7 @@ function App() {
     const [activeUnits, setActiveUnits] = useAsyncReference({});
     const [activeTraits, setActiveTraits] = useAsyncReference({});
     const [errorMessage, setErrorMessage] = useAsyncReference('');
+    const [currentSet, setCurrentSet] = useState(10)
     const forceUpdate = useCallback(() => updateState({}), []);
 
     //const [augments, setAugments] = useState([]);
@@ -26,20 +27,21 @@ function App() {
 
     const options = {
         enableMouseEvents: true,
-    } 
+    }
 
     // fetches and loads necessary data
     useEffect(() => {
         fetch('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json')
         .then(res => res.json())
         .then(res => {
-            setChampions(fetchUnits(res));
-            setItems(fetchItems(res));
-            setTraits(fetchTraits(res));
+            console.log(res);
+            setChampions(fetchUnits(res, currentSet));
+            setItems(fetchItems(res, currentSet));
+            setTraits(fetchTraits(res, currentSet));
         });
 
         resetBoard();
-    }, []);
+    }, [currentSet]);
 
     // resets the board
     const resetBoard = () => {
@@ -278,7 +280,7 @@ function App() {
         <DndProvider backend={TouchBackend} options={options}>
             <MyPreview />
             <div className='App'>
-                <h1 className='page-title'>TFT Team Builder - Set 9.5</h1>
+                <h1 className='page-title'>{`TFT Team Builder - Set ${currentSet}`}</h1>
                 <div className='reset-container'>
                     <h3 
                         className='reset-button' 

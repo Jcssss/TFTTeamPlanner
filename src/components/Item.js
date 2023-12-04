@@ -25,7 +25,11 @@ const Item = ({ itemData }) => {
                 borderWidth: '3px'
             }}
             alt={itemData.name} 
-            onClick={() => console.log(itemData.apiName)}
+            onClick={() => {
+                console.log(itemData.apiName)
+                console.log(itemData.incompatibleTraits)
+                console.log(`${baseUrl + itemData.img}`)
+            }}
         >
             <div className='item-name'>
                 {itemData.name}
