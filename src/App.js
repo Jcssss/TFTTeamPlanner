@@ -7,6 +7,7 @@ import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
 import Organizer from './components/Organizer.js';
 import { useAsyncReference } from './/scripts/constants.js';
 import MyPreview from './components/Preview.js';
+import SetSelector from './components/SetSelector.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
@@ -280,7 +281,8 @@ function App() {
         <DndProvider backend={TouchBackend} options={options}>
             <MyPreview />
             <div className='App'>
-                <h1 className='page-title'>{`TFT Team Builder - Set ${currentSet}`}</h1>
+                <h1 className='page-title'>TFT Team Builder</h1>
+                <SetSelector onOptionClick={setCurrentSet} activeSet={currentSet}/>
                 <div className='reset-container'>
                     <h3 
                         className='reset-button' 
