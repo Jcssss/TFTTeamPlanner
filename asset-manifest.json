@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/TFTCompPlanner/static/css/main.cedb8d87.css",
+    "main.css": "/TFTCompPlanner/static/css/main.8810815d.css",
     "main.js": "/TFTCompPlanner/static/js/main.c29feb7c.js",
     "static/js/787.d25b0e13.chunk.js": "/TFTCompPlanner/static/js/787.d25b0e13.chunk.js",
     "index.html": "/TFTCompPlanner/index.html",
-    "main.cedb8d87.css.map": "/TFTCompPlanner/static/css/main.cedb8d87.css.map",
+    "main.8810815d.css.map": "/TFTCompPlanner/static/css/main.8810815d.css.map",
     "main.c29feb7c.js.map": "/TFTCompPlanner/static/js/main.c29feb7c.js.map",
     "787.d25b0e13.chunk.js.map": "/TFTCompPlanner/static/js/787.d25b0e13.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cedb8d87.css",
+    "static/css/main.8810815d.css",
     "static/js/main.c29feb7c.js"
   ]
 }
