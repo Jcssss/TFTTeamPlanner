@@ -8,7 +8,7 @@ Over the past few years, Teamfight Tactics has quickly become one of my favourit
 
 ## Useful Tutorials
 1. [Hexagon Grid Tutorial](https://css-tricks.com/hexagons-and-beyond-flexible-responsive-grid-patterns-sans-media-queries/) - To create the original board
-2. [Dealing with Stale State Tutorial](https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/) - To deal with stale state issues. Definitely not the only solution but one I found easy to understand an implement.
+2. [Dealing with Stale State Tutorial](https://css-tricks.com/dealing-with-stale-props-and-states-in-reacts-functional-components/) - To deal with stale state issues. Definitely not the only solution but one I found easy to understand and implement.
 
 ## Data Sources and Packages
 1. [RAW - CommunityDragon API](https://raw.communitydragon.org/) - For images, data, and stats.
