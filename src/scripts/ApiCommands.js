@@ -123,7 +123,6 @@ export const fetchItems = function(entireJson, currentSet) {
 
 // Given the entire JSON, extracts info about the set's units
 export const fetchUnits = function(entireJson, currentSet) {
-    var addedUnits = [];
     var imgName = '';
     var setString = convertSetToString(currentSet);
 
@@ -135,13 +134,9 @@ export const fetchUnits = function(entireJson, currentSet) {
     return setData.champions.map((champion) => {
 
         // Removes unnecessary units
-        if (!Object.values(champion.stats).includes(null) && 
-            !addedUnits.includes(champion.name)) {
+        if (!Object.values(champion.stats).includes(null)) {
             
             imgName = champion.squareIcon;
-
-            // Prevents duplicate units (Set 9 Ryze)
-            addedUnits.push(champion.name)
 
             // Extracts relevant data about the unit
             return ({ 

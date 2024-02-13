@@ -22,7 +22,7 @@ const AutoScroll = (props) => {
         opacity: '0px',
         position: 'fixed',
         width: '100vw',
-        zIndex: 400
+        zIndex: 400,
     }
 
     useEffect(() => {

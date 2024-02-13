@@ -1,0 +1,21 @@
+.tooltip__container {
+    z-index: 500;
+    position: relative;
+    background-color: var(--dark-highlight);
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.tooltip__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    text-align: start;
+    height: auto;
+    background-color: var(--dark-highlight);
+    padding: 10px;
+    font-family: 'Gabarito';
+}

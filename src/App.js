@@ -281,8 +281,8 @@ function App() {
 
     return (
         <DndProvider backend={TouchBackend} options={options}>
-            <AutoScroll/>
             <MyPreview />
+            <AutoScroll/>
             <div className='App'>
                 <Tooltip>Hi I'm Justin</Tooltip>
                 <h1 className='page-title'>TFT Team Builder</h1>
