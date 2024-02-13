@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import Board from './components/Board.js';
+import Board from './components/board/Board.js';
 import { DndProvider } from 'react-dnd' 
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
-import Organizer from './components/Organizer.js';
-import { useAsyncReference } from './/scripts/constants.js';
+import Organizer from './components/organizer/Organizer.js';
+import { useAsyncReference } from './/hooks/useAsyncReference.js';
 import MyPreview from './components/Preview.js';
 import SetSelector from './components/SetSelector.js';
+import Tooltip from './components/help/Tooltip.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
@@ -281,6 +282,7 @@ function App() {
         <DndProvider backend={TouchBackend} options={options}>
             <MyPreview />
             <div className='App'>
+                <Tooltip>Hi I'm Justin</Tooltip>
                 <h1 className='page-title'>TFT Team Builder</h1>
                 <SetSelector onOptionClick={setCurrentSet} activeSet={currentSet}/>
                 <div className='reset-container'>

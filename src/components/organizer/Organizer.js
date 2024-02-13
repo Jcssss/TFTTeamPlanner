@@ -3,7 +3,7 @@ import Unit from './Unit.js';
 import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAsyncReference } from '../scripts/constants.js';
+import { useAsyncReference } from '../../hooks/useAsyncReference.js';
 
 // The organizer for units and items. Built with preset and search filters
 const Organizer = ({ champions, items, onUnitClick }) => {

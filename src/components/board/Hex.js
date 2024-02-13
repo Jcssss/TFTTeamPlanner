@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDrop, useDrag} from 'react-dnd';
-import { colours, baseUrl} from '../scripts/constants.js'
+import { colours, baseUrl} from '../../scripts/constants.js'
 
 // A hex on the board
 const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {

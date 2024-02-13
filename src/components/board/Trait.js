@@ -1,5 +1,5 @@
 import React from 'react';
-import { baseUrl }from '../scripts/constants.js';
+import { baseUrl }from '../../scripts/constants.js';
 
 // A trait rendered in the Board component
 const Trait = ({ traitData, numActive }) => {
