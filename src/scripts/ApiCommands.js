@@ -35,6 +35,7 @@ const ignorableItems = [
     'TFT10_Item_DJ_Mode1',
     'TFT10_Item_DJ_Mode2',
     'TFT10_Item_DJ_Mode3',
+    'TFT_Item_DebugDamageAmp',
 ]
 
 // Renames certain traits from the API for debugging

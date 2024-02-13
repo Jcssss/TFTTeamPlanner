@@ -9,6 +9,7 @@ const SetSelector = ({onOptionClick, activeSet}) => {
     const setButton = (setNum) => {
         return (
             <div
+                key={setNum}
                 className='dropdown-button'
                 style={{
                     display: `${(active)? 'block' : 'none'}`,

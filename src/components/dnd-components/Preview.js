@@ -1,5 +1,5 @@
 import { usePreview } from 'react-dnd-preview';
-import { baseUrl } from '../scripts/constants.js';
+import { baseUrl } from '../../scripts/constants.js';
 
 // Draws the previews when dragging an image with react dnd
 const MyPreview = () => {

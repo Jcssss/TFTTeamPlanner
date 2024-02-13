@@ -6,9 +6,10 @@ import { TouchBackend } from 'react-dnd-touch-backend'
 import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
 import Organizer from './components/organizer/Organizer.js';
 import { useAsyncReference } from './/hooks/useAsyncReference.js';
-import MyPreview from './components/Preview.js';
+import MyPreview from './components/dnd-components/Preview.js';
 import SetSelector from './components/SetSelector.js';
 import Tooltip from './components/help/Tooltip.js';
+import AutoScroll from './components/dnd-components/AutoScroll.js';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
@@ -280,6 +281,7 @@ function App() {
 
     return (
         <DndProvider backend={TouchBackend} options={options}>
+            <AutoScroll/>
             <MyPreview />
             <div className='App'>
                 <Tooltip>Hi I'm Justin</Tooltip>
