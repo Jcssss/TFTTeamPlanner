@@ -4,6 +4,7 @@ import Item from './Item.js';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAsyncReference } from '../../hooks/useAsyncReference.js';
+import Tooltip from '../help/Tooltip.js';
 
 // The organizer for units and items. Built with preset and search filters
 const Organizer = ({ champions, items, onUnitClick }) => {
@@ -60,7 +61,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
                     .map((champion) =>
                         <Unit 
                             championData={champion} 
-                            key={champion.name}
+                            key={champion.name + champion.traits[0]}
                             onUnitClick={onUnitClick}
                         />
                     )
@@ -90,6 +91,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
         <div className='organizer-container'>
             <div className='organizer-header flex'>
                 <div className='filter flex'>
+                    <Tooltip contentPosition={'bottom-right'} content={'organizer'}></Tooltip>
                     {displayStateOptions[viewportState].map((state) => (
                         <div 
                             className={`filter-button ${(displayState.current === state)? 'active' : ''}`}

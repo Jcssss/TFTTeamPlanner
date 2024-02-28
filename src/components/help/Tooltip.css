@@ -2,20 +2,41 @@
     z-index: 500;
     position: relative;
     background-color: var(--dark-highlight);
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    border-radius: 10px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tooltip__content {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 500px;
+    width: 20vw;
     text-align: start;
     height: auto;
     background-color: var(--dark-highlight);
     padding: 10px;
     font-family: 'Gabarito';
+    border-radius: 10px;
+}
+
+.bottom-right {
+    top: 50%;
+    left: 50%;
+}
+
+.bottom-left {
+    top: 50%;
+    right: 50%;
+}
+
+.top-right {
+    bottom: 50%;
+    left: 50%;
+}
+
+.top-left {
+    bottom: 50%;
+    right: 50%;
 }

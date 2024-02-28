@@ -284,7 +284,6 @@ function App() {
             <MyPreview />
             <AutoScroll/>
             <div className='App'>
-                <Tooltip>Hi I'm Justin</Tooltip>
                 <h1 className='page-title'>TFT Team Builder</h1>
                 <SetSelector onOptionClick={setCurrentSet} activeSet={currentSet}/>
                 <div className='reset-container'>
@@ -297,6 +296,7 @@ function App() {
                 </div>
                 <h4 className='errorMessage'>{errorMessage.current}</h4>
                 <div style={{ display: 'flex', justifyContent: 'center'}}>
+                    <Tooltip contentPosition={'bottom-right'} content={'board'}></Tooltip>
                     <Board 
                         boardState={boardState.current}
                         traitData={traits}
