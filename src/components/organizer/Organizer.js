@@ -61,7 +61,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
                     .map((champion) =>
                         <Unit 
                             championData={champion} 
-                            key={champion.name + champion.traits[0]}
+                            key={champion.name + ' ' + champion.uid}
                             onUnitClick={onUnitClick}
                         />
                     )

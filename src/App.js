@@ -20,7 +20,7 @@ function App() {
     const [activeUnits, setActiveUnits] = useAsyncReference({});
     const [activeTraits, setActiveTraits] = useAsyncReference({});
     const [errorMessage, setErrorMessage] = useAsyncReference('');
-    const [currentSet, setCurrentSet] = useState(10)
+    const [currentSet, setCurrentSet] = useState(11)
     const forceUpdate = useCallback(() => updateState({}), []);
 
     //const [augments, setAugments] = useState([]);

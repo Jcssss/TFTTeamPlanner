@@ -38,6 +38,14 @@ const ignorableItems = [
     'TFT_Item_DebugDamageAmp',
 ]
 
+const ignorableUnits = {
+    9.5: [],
+    10: [],
+    11: [
+        'SightWard'
+    ]
+}
+
 // Renames certain traits from the API for debugging
 const replaceNames = {
     9.5 : {
@@ -57,6 +65,9 @@ const replaceNames = {
         'KDA': 'K/DA',
         '8Bit': '8-bit',
         'TrueDamage': 'True Damage'
+    },
+    11: {
+        'InkShadow': 'Inkshadow'
     }
 }
 
@@ -125,6 +136,7 @@ export const fetchItems = function(entireJson, currentSet) {
 export const fetchUnits = function(entireJson, currentSet) {
     var imgName = '';
     var setString = convertSetToString(currentSet);
+    var alreadyAdded = [];
 
     var setData = entireJson.setData.filter((set) => {
         return set.mutator == setString
@@ -134,16 +146,20 @@ export const fetchUnits = function(entireJson, currentSet) {
     return setData.champions.map((champion) => {
 
         // Removes unnecessary units
-        if (!Object.values(champion.stats).includes(null)) {
+        if (!Object.values(champion.stats).includes(null) &&
+            !(ignorableUnits[currentSet].includes(champion.name))) {
             
             imgName = champion.squareIcon;
+
+            alreadyAdded.push(champion.name);
 
             // Extracts relevant data about the unit
             return ({ 
                 "name": champion.name, 
                 "cost": (champion.traits.length === 0)? 0 : champion.cost, 
                 "img": imgName.substring(0, imgName.length - 3).toLowerCase() + 'png', 
-                "traits": champion.traits
+                "traits": champion.traits,
+                "uid": alreadyAdded.filter((str) => str === champion.name).length
             })
         }
         return null;
