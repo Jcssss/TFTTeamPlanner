@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import Board from './components/board/Board.js';
+import Board from './components/board/Board';
 import { DndProvider } from 'react-dnd' 
 import { TouchBackend } from 'react-dnd-touch-backend'
-import { fetchItems, fetchUnits, fetchTraits } from './scripts/ApiCommands.js';
+import { fetchItems, fetchUnits, fetchTraits } from './general/ApiCommands';
 import Organizer from './components/organizer/Organizer.js';
-import { useAsyncReference } from './/hooks/useAsyncReference.js';
-import MyPreview from './components/dnd-components/Preview.js';
+import { useAsyncReference } from './hooks/useAsyncReference.js';
+import MyPreview from './components/dnd-components/Preview';
 import SetSelector from './components/SetSelector.js';
 import Tooltip from './components/help/Tooltip.js';
-import AutoScroll from './components/dnd-components/AutoScroll.js';
+import AutoScroll from './components/dnd-components/AutoScroll';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'

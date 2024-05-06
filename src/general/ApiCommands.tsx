@@ -1,5 +1,7 @@
+import {UnitType, ItemType, TraitType, ToAddType} from './types';
+
 // A list of the sets of items that we want to be ignored
-const ignorableItems = [
+const ignorableItems: string[] = [
     'TFT_Item_ThiefsGloves_Empty',
     'TFT_Item_BlankSlot',
     'TFT_Item_EmptyBag',
@@ -38,7 +40,7 @@ const ignorableItems = [
     'TFT_Item_DebugDamageAmp',
 ]
 
-const ignorableUnits = {
+const ignorableUnits: {[key: number] : string[]} = {
     9.5: [],
     10: [],
     11: [
@@ -47,7 +49,7 @@ const ignorableUnits = {
 }
 
 // Renames certain traits from the API for debugging
-const replaceNames = {
+const replaceNames: {[key: number] : {[key: string]: string}} = {
     9.5 : {
         'Marksman': 'Gunner',
         'Armorclad':'Juggernaut',
@@ -71,7 +73,7 @@ const replaceNames = {
     }
 }
 
-const convertSetToString = (setNumber) => {
+const convertSetToString = (setNumber: number): string => {
     let setString = `TFTSet${Math.floor(setNumber)}`;
     if (Math.floor(setNumber) !== setNumber) {
         setString = setString + '_Stage2';
@@ -80,11 +82,14 @@ const convertSetToString = (setNumber) => {
 };
 
 // Replaces trait names with their correct counterparts
-const substituteTraitNames = (item, currentSet) => {
-    var incompatibleTraits = [];
+const substituteTraitNames = (
+    item: ItemType, 
+    currentSet: number
+): string[] => {
+    let incompatibleTraits: string[] = [];
 
     // For each of the items traits
-    item.incompatibleTraits.forEach((name) => {
+    item && item.incompatibleTraits.forEach((name: string) => {
         name = name.split('_')[1];
 
         // If a replacement exists replace it
@@ -94,19 +99,23 @@ const substituteTraitNames = (item, currentSet) => {
             incompatibleTraits.push(name);
         }
     });
-    
+
     return incompatibleTraits;
 }
 
 // Given the JSON file, extracts relevant info about the set's items
-export const fetchItems = function(entireJson, currentSet) {
-    var imgName = ''
+export const fetchItems = function(
+    entireJson: ToAddType, 
+    currentSet: number
+): ItemType[] {
+    let imgName = ''
 
-    return entireJson.items.map((item) => { 
+    let itemList = entireJson.items.map((item: ToAddType): ItemType => { 
         imgName = item.icon;
 
         // Filters items from the current set or in the general bin
-        if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`) || item.apiName.includes('TFT_Item')) {
+        if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`) || 
+            item.apiName.includes('TFT_Item')) {
 
             // Filters out unwanted items
             if( item.name != null && 
@@ -127,30 +136,33 @@ export const fetchItems = function(entireJson, currentSet) {
             }
         }
         return null;
+    });
     
-    // filters out the null values
-    }).filter(item => item)
+    // filters out the null values and returns the list
+    return itemList.filter((item: ItemType) => item)
 }
 
 // Given the entire JSON, extracts info about the set's units
-export const fetchUnits = function(entireJson, currentSet) {
-    var imgName = '';
-    var setString = convertSetToString(currentSet);
-    var alreadyAdded = [];
+export const fetchUnits = function(
+    entireJson: ToAddType, 
+    currentSet: number
+): UnitType[] {
+    let imgName = '';
+    let setString = convertSetToString(currentSet);
+    let alreadyAdded = [];
 
-    var setData = entireJson.setData.filter((set) => {
+    let setData = entireJson.setData.filter((set: ToAddType) => {
         return set.mutator == setString
     })[0];
 
     // takes the latest data on champions and iterates through them
-    return setData.champions.map((champion) => {
+    let champList = setData.champions.map((champion: ToAddType): UnitType => {
 
         // Removes unnecessary units
         if (!Object.values(champion.stats).includes(null) &&
             !(ignorableUnits[currentSet].includes(champion.name))) {
             
             imgName = champion.squareIcon;
-
             alreadyAdded.push(champion.name);
 
             // Extracts relevant data about the unit
@@ -160,34 +172,39 @@ export const fetchUnits = function(entireJson, currentSet) {
                 "img": imgName.substring(0, imgName.length - 3).toLowerCase() + 'png', 
                 "traits": champion.traits,
                 "uid": alreadyAdded.filter((str) => str === champion.name).length
-            })
+            });
         }
         return null;
+    });
     
-    // filters out the null values
-    }).filter(champ => champ);
+    // filters out the null values and returns the list
+    return champList.filter((champ: UnitType) => champ);
 }
 
 // Given the entire JSON, extracts info about the set's traits
-export const fetchTraits = function(entireJson, currentSet) {
-    var imgName = '';
-    var setString = convertSetToString(currentSet);
+export const fetchTraits = function(
+    entireJson: ToAddType, 
+    currentSet: number,
+): TraitType[] {
+    let imgName = '';
+    let setString = convertSetToString(currentSet);
 
-    var setData = entireJson.setData.filter((set) => {
+    let setData = entireJson.setData.filter((set: ToAddType) => {
         return set.mutator == setString
     })[0];
 
     // takes the latest data on traits and iterates through them
-    return setData.traits.map((trait) => {
+    let traitList = setData.traits.map((trait: ToAddType) => {
         imgName = trait.icon;
 
         // Extracts relevant data about the trait
         return ({ 
             "name": trait.name, 
             "img": imgName.substring(0, imgName.length - 3).toLowerCase() + 'png', 
-            "intervals": trait.effects.map((int) => int.minUnits),
+            "intervals": trait.effects.map((int: ToAddType) => int.minUnits),
         })
-
+    });
+    
     // filters out the null values
-    }).filter(trait => trait);
+    return traitList.filter((trait: TraitType) => trait);
 }

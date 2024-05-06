@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { baseUrl } from '../../scripts/constants.js';
+import { baseUrl } from '../../general/constants';
 
 // An item image stored in the organizer
 const Item = ({ itemData }) => {

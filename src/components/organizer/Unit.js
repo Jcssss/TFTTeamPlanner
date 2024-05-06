@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { colours, baseUrl } from '../../scripts/constants.js';
+import { colours, baseUrl } from '../../general/constants';
 
 // A unit image that can be dragged
 const Unit = ({ championData, onUnitClick }) => {

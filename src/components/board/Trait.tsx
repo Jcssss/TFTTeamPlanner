@@ -1,17 +1,27 @@
 import React from 'react';
-import { baseUrl }from '../../scripts/constants.js';
+import { baseUrl }from '../../general/constants';
+import {TraitType} from '../../general/types';
 
-// A trait rendered in the Board component
-const Trait = ({ traitData, numActive }) => {
+type PropTypes = {
+    traitData: TraitType,
+    numActive: number,
+}
+
+// An active trait with intervals and current number of units
+const Trait = ({ 
+    traitData, numActive 
+}: PropTypes) => {
 
     // Renders the intervals for the given Trait
-    const createInterval = (num, i) => {
-        return <React.Fragment key={num}>
-            <div className={`arrow ${(numActive < num)? '':'highlight'}`}>
-                {(i !== 0)? '>' : ''}
+    const createInterval = (interval: number, index: number) => {
+        
+        let mod = (numActive < interval)? '':'highlight'
+        return <React.Fragment key={interval}>
+            <div className={`arrow ${mod}`}>
+                {(index !== 0)? '>' : ''}
             </div>
-            <div className={`num ${(numActive < num)? '':'highlight'}`}>
-                {num}
+            <div className={`num ${mod}`}>
+                {interval}
             </div>
         </React.Fragment>
     }

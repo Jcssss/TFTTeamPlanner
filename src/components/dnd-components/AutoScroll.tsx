@@ -1,8 +1,13 @@
 import React, {useEffect} from 'react';
 import { useDrop } from 'react-dnd';
 
-const AutoScroll = (props) => {
+/* 
+Auto scrolls up or down if the user drags an item near the top or
+bottom of the screen 
+*/
+const AutoScroll = () => {
 
+    // Detects if item is dragged near the top of the screen
     const [{ isOverUp }, upScroll] = useDrop(() => ({
         accept: ['unit', 'item', 'hex'],
         collect: (monitor) => ({
@@ -10,6 +15,7 @@ const AutoScroll = (props) => {
         })
     }))
 
+    // Detects if the item is dragged near the bottom of the screen
     const [{ isOverDown }, downScroll] = useDrop(() => ({
         accept: ['unit', 'item', 'hex'],
         collect: (monitor) => ({
@@ -20,7 +26,7 @@ const AutoScroll = (props) => {
     const generalStyle = {
         height: '20px',
         opacity: '0px',
-        position: 'fixed',
+        position: 'fixed' as 'fixed',
         width: '100vw',
         zIndex: 400,
     }

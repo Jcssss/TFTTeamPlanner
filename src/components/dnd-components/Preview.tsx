@@ -1,5 +1,6 @@
 import { usePreview } from 'react-dnd-preview';
-import { baseUrl } from '../../scripts/constants.js';
+import { baseUrl } from '../../general/constants';
+import { DnDType, ToAddType} from '../../general/types';
 
 // Draws the previews when dragging an image with react dnd
 const MyPreview = () => {
@@ -7,7 +8,12 @@ const MyPreview = () => {
     if (!preview.display) {
         return null
     }
-    const {itemType, item, style} = preview;
+    const {itemType, item, style}: {
+        itemType: ToAddType, 
+        item: ToAddType, 
+        style: Object,
+    } = preview;
+    
     return <div 
         className="item-list__item" 
         style={{

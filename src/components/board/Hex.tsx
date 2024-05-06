@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { useDrop, useDrag} from 'react-dnd';
-import { colours, baseUrl} from '../../scripts/constants.js'
+import { colours, baseUrl} from '../../general/constants';
+import { ItemType, HexType, DnDType} from '../../general/types';
 
-// A hex on the board
-const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
-    const [counter, setCounter] = useState(content);
+type PropTypes = {
+    content: HexType,
+    onDrop: Function,
+    removeItem: Function,
+    removeUnit: Function,
+    row: number,
+    column: number,
+}
+
+// A hex on the board where users can place items and units
+const Hex = ({
+    content, onDrop, removeItem, removeUnit, row, column
+}: PropTypes) => {
+    const [counter, setCounter] = useState(0);
 
     const [{ isOver }, drop] = useDrop(() => ({
         accept: ['unit', 'item', 'hex'], 
-        drop: (dropped) => {
-            setCounter((count) => count + 1)
+        drop: (dropped: DnDType): void => {
+            setCounter((count: number): number => count + 1)
             onDrop(dropped.type, dropped.data, row, column)
         },
         collect: (monitor) => ({
@@ -36,6 +48,7 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
 
     return (
         <span className="hex-container">
+            {/* The border for the hex */}
             <div 
                 className='hex'
                 ref={drag}
@@ -43,6 +56,7 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                     backgroundColor: colours[content.champData.cost],
                 }: {}}
             >
+                {/* The main image for the hex */}
                 <div
                     className = {`hex-unit ${(isOver)? 'hovered' : ''}`}
                     ref={drop}
@@ -50,9 +64,7 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                         e.preventDefault();
                         removeUnit(row,column)
                     }}
-                    onClick={() =>
-                        removeUnit(row,column)
-                    }
+                    onClick={() => removeUnit(row,column)}
                     style={(content.champData !== null)? { 
                         backgroundImage: `url(${baseUrl + content.champData.img})`,
                         backgroundSize: '135%',
@@ -62,9 +74,10 @@ const Hex = ({content, onDrop, removeItem, removeUnit, row, column}) => {
                 >
                 </div>
             </div>
+            {/* The item images for the hex */}
             <div className="hex-items-container">
-                {content.itemData.map((item, i) => (
-                    <img
+                {content.itemData.map((item: ItemType, i: number) => (
+                    item && <img
                         className='hex-items'
                         alt={item.name}
                         key={i}
