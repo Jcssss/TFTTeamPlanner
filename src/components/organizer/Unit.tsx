@@ -1,9 +1,17 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { colours, baseUrl } from '../../general/constants';
+import { UnitType } from '../../general/types';
+
+type PropTypes = {
+    championData: UnitType,
+    onUnitClick: Function,
+}
 
 // A unit image that can be dragged
-const Unit = ({ championData, onUnitClick }) => {
+const Unit = ({ 
+    championData, onUnitClick 
+}: PropTypes) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'unit',
         item: { 'type': 'unit', 'data': championData },
@@ -26,7 +34,6 @@ const Unit = ({ championData, onUnitClick }) => {
                 borderStyle: 'solid',
                 borderWidth: '3px'
             }}
-            alt={championData.name} 
             onClick={() => onUnitClick(championData)}
         >
             <div className='unit-name'>

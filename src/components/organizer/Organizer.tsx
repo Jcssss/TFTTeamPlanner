@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import Unit from './Unit.js';
-import Item from './Item.js';
+import Unit from './Unit';
+import Item from './Item';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAsyncReference } from '../../hooks/useAsyncReference.js';
-import Tooltip from '../help/Tooltip.js';
+import { useAsyncReference } from '../../hooks/useAsyncReference';
+import Tooltip from '../help/Tooltip';
+import { UnitType, ItemType } from '../../general/types';
+
+type PropTypes = {
+    champions: UnitType[],
+    items: ItemType[],
+    onUnitClick: Function,
+}
 
 // The organizer for units and items. Built with preset and search filters
-const Organizer = ({ champions, items, onUnitClick }) => {
+const Organizer = ({ 
+    champions, items, onUnitClick 
+}: PropTypes) => {
     const [displayState, setDisplayState] = useAsyncReference('All');
     const [viewportState, setviewportState] = useState('mobile');
     const [searchTerm, setSearchTerm] = useState('')
-    const displayStateOptions = {
-        'desktop': ['All', 'Units', 'Items'],
-        'mobile': ['Units', 'Items']
+    const displayStateOptions: {[key: string]: string[]} = {
+        desktop: ['All', 'Units', 'Items'],
+        mobile: ['Units', 'Items']
     }
 
     // sets a resize event listener
@@ -39,7 +48,11 @@ const Organizer = ({ champions, items, onUnitClick }) => {
     the search term. Searching Az'ir will return Azir and searching
     Reksai will return Rek'sai.
     */
-    const filterDisplay = (data) => {
+    const filterDisplay = (data: UnitType | ItemType) => {
+        if (!data) {
+            return;
+        }
+
         var nameOrigin = data.name.toLowerCase();
         var clippedName = nameOrigin.replace(/[^\w]/, '');
         var searchOrigin = searchTerm.toLowerCase()
@@ -58,7 +71,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
             // filters the units based on the search filter
             return <div className='unit-images'>
                 {champions.filter(champ => filterDisplay(champ))
-                    .map((champion) =>
+                    .map((champion: UnitType)  =>
                         <Unit 
                             championData={champion} 
                             key={champion.name + ' ' + champion.uid}
@@ -80,7 +93,10 @@ const Organizer = ({ champions, items, onUnitClick }) => {
             return <div className='item-images'>
                 {items.filter(item => filterDisplay(item))
                     .map((item) => 
-                        <Item itemData={item} key={item.name}></Item>
+                        <Item 
+                            itemData={item} 
+                            key={item.name}
+                        />
                     )
                 }
             </div>
@@ -91,7 +107,7 @@ const Organizer = ({ champions, items, onUnitClick }) => {
         <div className='organizer-container'>
             <div className='organizer-header flex'>
                 <div className='filter flex'>
-                    <Tooltip contentPosition={'bottom-right'} content={'organizer'}></Tooltip>
+                    <Tooltip contentPosition={'bottom-right'} content={'organizer'}/>
                     {displayStateOptions[viewportState].map((state) => (
                         <div 
                             className={`filter-button ${(displayState.current === state)? 'active' : ''}`}

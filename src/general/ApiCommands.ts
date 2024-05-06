@@ -110,7 +110,7 @@ export const fetchItems = function(
 ): ItemType[] {
     let imgName = ''
 
-    let itemList = entireJson.items.map((item: ToAddType): ItemType => { 
+    let itemList = entireJson.items.map((item: ToAddType): ItemType | null => { 
         imgName = item.icon;
 
         // Filters items from the current set or in the general bin
@@ -156,7 +156,7 @@ export const fetchUnits = function(
     })[0];
 
     // takes the latest data on champions and iterates through them
-    let champList = setData.champions.map((champion: ToAddType): UnitType => {
+    let champList = setData.champions.map((champion: ToAddType): UnitType | null=> {
 
         // Removes unnecessary units
         if (!Object.values(champion.stats).includes(null) &&

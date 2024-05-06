@@ -2,11 +2,18 @@ import React, {useState} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-const SetSelector = ({onOptionClick, activeSet}) => {
+type PropTypes = {
+    onOptionClick: Function,
+    activeSet: number,
+}
+
+const SetSelector = ({
+    onOptionClick, activeSet
+}: PropTypes) => {
     const [active, setActive] = useState(false);
     const setOptions = [9.5, 10, 11];
 
-    const setButton = (setNum) => {
+    const setButton = (setNum: number) => {
         return (
             <div
                 key={setNum}

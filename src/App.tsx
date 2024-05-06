@@ -4,29 +4,30 @@ import Board from './components/board/Board';
 import { DndProvider } from 'react-dnd' 
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { fetchItems, fetchUnits, fetchTraits } from './general/ApiCommands';
-import Organizer from './components/organizer/Organizer.js';
-import { useAsyncReference } from './hooks/useAsyncReference.js';
+import Organizer from './components/organizer/Organizer';
+import { useAsyncReference } from './hooks/useAsyncReference';
 import MyPreview from './components/dnd-components/Preview';
-import SetSelector from './components/SetSelector.js';
-import Tooltip from './components/help/Tooltip.js';
+import SetSelector from './components/SetSelector';
+import Tooltip from './components/help/Tooltip';
 import AutoScroll from './components/dnd-components/AutoScroll';
+import { UnitType, ItemType, TraitType, HexDragData } from './general/types';
 
 //'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
 //'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
 
 function App() {
-    const [, updateState] = useState();
+    const [, updateState] = useState(false);
     const [boardState, setBoardState] = useAsyncReference([]);
     const [activeUnits, setActiveUnits] = useAsyncReference({});
     const [activeTraits, setActiveTraits] = useAsyncReference({});
     const [errorMessage, setErrorMessage] = useAsyncReference('');
     const [currentSet, setCurrentSet] = useState(11)
-    const forceUpdate = useCallback(() => updateState({}), []);
+    const forceUpdate = useCallback(() => updateState(s => !s), []);
 
     //const [augments, setAugments] = useState([]);
-    const [champions, setChampions] = useState([]);
-    const [traits, setTraits] = useState([]);
-    const [items, setItems] = useState([]);
+    const [champions, setChampions]: [UnitType[], Function] = useState([]);
+    const [traits, setTraits]: [TraitType[], Function] = useState([]);
+    const [items, setItems]: [ItemType[], Function] = useState([]);
 
     const options = {
         enableMouseEvents: true,
@@ -61,10 +62,10 @@ function App() {
     }
 
     // Clears a hex
-    const removeUnit = (row, column) => {
+    const removeUnit = (row: number, column: number) => {
         var tempBoard = boardState.current;
         var tempActUnits = activeUnits.current;
-        var traitsToRemove = [];
+        var traitsToRemove: string[] = [];
         var champName = '';
 
         // Confirms that the hex has something to clear
@@ -83,8 +84,10 @@ function App() {
         }
 
         // removes emblem traits
-        tempBoard[row][column].itemData.forEach((item) => {
-            traitsToRemove = traitsToRemove.concat(item.incompatibleTraits)
+        tempBoard[row][column].itemData.forEach((item: ItemType) => {
+            if (item) {
+                traitsToRemove = traitsToRemove.concat(item.incompatibleTraits)
+            }
         });
 
         changeTraits(traitsToRemove, false);
@@ -98,23 +101,23 @@ function App() {
     }
 
     // Removes an item from a hex
-    const removeItem = (name, row, column) => {
+    const removeItem = (name: string, row: number, column: number) => {
         var tempBoard = boardState.current;
         var hex = tempBoard[row][column];
 
         // Removes traits if item was an emblem;
-        var remTraits = hex.itemData.filter(item => item.name === name)
+        var remTraits = hex.itemData.filter((item: ItemType) => item && item.name === name)
         remTraits = remTraits[0].incompatibleTraits;
         changeTraits(remTraits, false);
 
-        hex.itemData = hex.itemData.filter(item => item.name !== name);
+        hex.itemData = hex.itemData.filter((item: ItemType) => item && item.name !== name);
 
         setBoardState(tempBoard);
         forceUpdate();
     }
 
     // Removes a unit from the list of units on the board
-    const changeUnits = (unitName, isAdding) => {
+    const changeUnits = (unitName: string, isAdding: boolean) => {
         var curActive = {...activeUnits.current};
 
         // If the trait exists in the list and should be incremented
@@ -138,8 +141,8 @@ function App() {
     }
 
     // Updates the list of active traits on the board
-    const changeTraits = (traits, isAdding) => {
-        var curActive = {...activeTraits.current};
+    const changeTraits = (traits: string[], isAdding: boolean) => {
+        var curActive: {[key: string]: number} = {...activeTraits.current};
 
         // Iterates through the list of traits to update
         traits.forEach((trait) => {
@@ -163,7 +166,10 @@ function App() {
         });
 
         curActive = Object.fromEntries(
-            Object.entries(curActive).sort(([,t1],[,t2]) => {
+            Object.entries(curActive).sort((
+                [,t1]: [string, number],
+                [,t2]: [string, number]
+            ): number => {
                 return t2 - t1;
             })
         );
@@ -171,8 +177,17 @@ function App() {
         setActiveTraits(curActive);
     }
 
+    const validateUnit = (data: UnitType) => {
+
+    }
+
     // Adds a unit or item to a hex
-    const addToHex = (type, data, row, column) => {
+    const addToHex = (
+        type: string,
+        data: UnitType | ItemType | HexDragData,
+        row: number, 
+        column: number,
+    ) => {
         var temp = boardState.current;
         var hex = temp[row][column];
         var champ = hex.champData;
@@ -181,31 +196,35 @@ function App() {
 
         // checks if unit and that the hex is empty
         if (type === 'unit') {
+            let champData = data as UnitType
             if (champ !== null) {
                 error = 'Units can only be placed on empty hexes';
             } else {
                 hex.champData = {...data};
 
                 // If this is the first instance of unit, updates traits
-                if (!activeUnits.current.hasOwnProperty(data.name)) {
-                    changeTraits(data.traits, true);
+                if (!activeUnits.current.hasOwnProperty(champData.name)) {
+                    changeTraits(champData.traits, true);
                 }
-                changeUnits(data.name, true);
+
+                changeUnits(champData.name, true);
             }
         
         // checks if hex and moves hex accordingly
         } else if (type === 'hex') {
-            
+            let hexData = data as HexDragData
+
             // checks that the hex has a unit
             if (champ !== null) {
                 error = 'Units can only be moved to empty hexes';
             } else {
-                moveHex(data, data.row, data.column, row, column);
+                moveHex(hexData, hexData.row, hexData.column, row, column);
             }
         
         // checks if item and that the hex has a unit
         } else if (type === 'item') {
-            
+            let itemData = data as ItemType
+
             // checks that the hex has a unit
             if (champ === null) {
                 error = 'Items can only be placed on hexes with units.';
@@ -216,12 +235,12 @@ function App() {
 
             // checks if the item is an invalid emblem
             // (emblems cannot be dropped on units that already have the trait)
-            } else if (data.incompatibleTraits.some((trait) => champ.traits.includes(trait))) {
+            } else if (itemData.incompatibleTraits.some((trait: string) => champ.traits.includes(trait))) {
                 error = 'This unit already has that trait.';
 
             // checks if the item is unique. 
             // If it is unique confirms that the item isn't already assigned
-            } else if (data.unique && items.some((item) => item.name === data.name)) {
+            } else if (itemData.unique && items.some((item: ItemType) => item.name === itemData.name)) {
                 error = 'A unit can only have one of that item.';
             
             // Checks that the unit can hold items
@@ -230,7 +249,7 @@ function App() {
             
             } else {
                 hex.itemData.push({...data});
-                changeTraits(data.incompatibleTraits, true);
+                changeTraits(itemData.incompatibleTraits, true);
             }
         }
 
@@ -240,7 +259,7 @@ function App() {
     }
 
     // finds the first available hex and adds the unit to that hex
-    const addToFirstEmpty = (unitData) => {
+    const addToFirstEmpty = (unitData: UnitType) => {
         var board = boardState.current;
         var row, column;
 
@@ -258,14 +277,20 @@ function App() {
     }
 
     // moves data from one hex to another hex
-    const moveHex = (hexData, oldRow, oldCol, newRow, newCol) => {
+    const moveHex = (
+        hexData: HexDragData, 
+        oldRow: number, 
+        oldCol: number, 
+        newRow: number, 
+        newCol: number
+    ) => {
         var board = boardState.current;
 
         // copies over the unit
         board[newRow][newCol].champData = {...hexData.champData};
 
         // copies over items
-        board[oldRow][oldCol].itemData.forEach((item) => {
+        board[oldRow][oldCol].itemData.forEach((item: ItemType) => {
             board[newRow][newCol].itemData.push({...item})
         });
 

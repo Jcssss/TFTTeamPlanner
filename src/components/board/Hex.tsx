@@ -77,7 +77,7 @@ const Hex = ({
             {/* The item images for the hex */}
             <div className="hex-items-container">
                 {content.itemData.map((item: ItemType, i: number) => (
-                    item && <img
+                    <img
                         className='hex-items'
                         alt={item.name}
                         key={i}
