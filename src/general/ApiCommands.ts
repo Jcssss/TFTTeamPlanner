@@ -38,13 +38,15 @@ const ignorableItems: string[] = [
     'TFT10_Item_DJ_Mode2',
     'TFT10_Item_DJ_Mode3',
     'TFT_Item_DebugDamageAmp',
+    'TFT4_Item_OrnnRocketPropelledFist',
 ]
 
 const ignorableUnits: {[key: number] : string[]} = {
     9.5: [],
     10: [],
     11: [
-        'SightWard'
+        'SightWard',
+        'Golden Tree',
     ]
 }
 
@@ -71,6 +73,10 @@ const replaceNames: {[key: number] : {[key: string]: string}} = {
     11: {
         'InkShadow': 'Inkshadow'
     }
+}
+
+const replaceItemTypes: {[key: string]: string} = {
+    TFT4_Item_OrnnObsidianCleaver: 'support'
 }
 
 const convertSetToString = (setNumber: number): string => {
@@ -115,24 +121,45 @@ export const fetchItems = function(
 
         // Filters items from the current set or in the general bin
         if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`) || 
-            item.apiName.includes('TFT_Item')) {
+            item.apiName.includes('TFT_Item') ||
+            item.apiName.includes('TFT4_Item_Ornn')) {
 
             // Filters out unwanted items
             if( item.name != null && 
                 !ignorableItems.includes(item.apiName) &&
-                !item.name.toLowerCase().includes('orb') && 
+                !item.apiName.toLowerCase().includes('orbs') && 
                 !item.name.toLowerCase().includes('component') && 
                 !item.name.toLowerCase().includes('item')) {
-                    
-                    // Tracks and returns relevant data in an object
-                    return ({
-                        "apiName": item.apiName,
-                        "name": item.name.replace('<br>', ''),
-                        "composition": item.composition,
-                        "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
-                        "unique": item.unique,
-                        "incompatibleTraits": substituteTraitNames(item, currentSet)
-                    })
+                
+                let itemType = '';
+                if (replaceItemTypes.hasOwnProperty(item.apiName)) {
+                    itemType = replaceItemTypes[item.apiName];
+                } else if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`)) {
+                    if (item.apiName.includes('EmblemItem')) {
+                        itemType = 'emblem';
+                    } else {
+                        itemType = 'other';
+                    }
+                } else if (item.apiName.includes('TFT_Item_Artifact') ||
+                           item.apiName.includes('TFT4_Item_Ornn')) {
+                    itemType = 'artifact';
+                } else if (item.apiName.includes('TFT_Item') &&
+                           item.composition.length == 0){
+                    itemType = 'support';
+                } else {
+                    itemType = 'normal';
+                }
+
+                // Tracks and returns relevant data in an object
+                return ({
+                    "apiName": item.apiName,
+                    "itemType": itemType,
+                    "name": item.name.replace('<br>', ''),
+                    "composition": item.composition,
+                    "img": item.icon.substring(0, imgName.length - 3).toLowerCase() + 'png',
+                    "unique": item.unique,
+                    "incompatibleTraits": substituteTraitNames(item, currentSet)
+                })
             }
         }
         return null;

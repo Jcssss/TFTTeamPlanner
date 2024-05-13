@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Unit from './Unit';
-import Item from './Item';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAsyncReference } from '../../hooks/useAsyncReference';
 import Tooltip from '../help/Tooltip';
 import { UnitType, ItemType } from '../../general/types';
+import ItemOrganizer from './ItemOrganizer';
+import UnitOrganizer from './UnitOrganizer';
 
 type PropTypes = {
     champions: UnitType[],
@@ -62,52 +62,10 @@ const Organizer = ({
             || clippedName.includes(clippedSearch));
     }
 
-    // Filters and displays the set of units
-    const displayChampions = () => {
-
-        // Checks if units should be shown
-        if (['All', 'Units'].includes(displayState.current)) {
-
-            // filters the units based on the search filter
-            return <div className='unit-images'>
-                {champions.filter(champ => filterDisplay(champ))
-                    .map((champion: UnitType)  =>
-                        <Unit 
-                            championData={champion} 
-                            key={champion.name + ' ' + champion.uid}
-                            onUnitClick={onUnitClick}
-                        />
-                    )
-                }
-            </div>
-        }
-    }
-
-    // Filters and displays the set of items
-    const displayItems = () => {
-
-        // Checks if items should be displayed
-        if (['All', 'Items'].includes(displayState.current)) {
-
-            // Filters the set of items based on the search term
-            return <div className='item-images'>
-                {items.filter(item => filterDisplay(item))
-                    .map((item) => 
-                        <Item 
-                            itemData={item} 
-                            key={item.name}
-                        />
-                    )
-                }
-            </div>
-        }
-    }
-
     return (
         <div className='organizer-container'>
             <div className='organizer-header flex'>
-                <div className='filter flex'>
-                    <Tooltip contentPosition={'bottom-right'} content={'organizer'}/>
+                {/* <div className='filter flex'>
                     {displayStateOptions[viewportState].map((state) => (
                         <div 
                             className={`filter-button ${(displayState.current === state)? 'active' : ''}`}
@@ -117,7 +75,8 @@ const Organizer = ({
                             {state}
                         </div>
                     ))}
-                </div>
+                </div> */}
+                <Tooltip contentPosition={'bottom-right'} content={'organizer'}/>
                 <div className='search-bar'>
                     <FontAwesomeIcon 
                         className='search-icon' 
@@ -131,8 +90,15 @@ const Organizer = ({
                 </div>
             </div>
             <div className='img-container'>
-                {displayChampions()}
-                {displayItems()}
+                <ItemOrganizer 
+                    searchTerm={searchTerm}
+                    items={items}
+                />
+                <UnitOrganizer
+                    searchTerm={searchTerm}
+                    units={champions}
+                    onUnitClick={onUnitClick}
+                />
             </div>
         </div>
     );

@@ -34,12 +34,15 @@ const Unit = ({
                 borderStyle: 'solid',
                 borderWidth: '3px'
             }}
-            onClick={() => onUnitClick(championData)}
+            onClick={() => {
+                console.log(championData.name)
+                onUnitClick(championData)
+            }}
         >
             <div className='unit-name'>
                 {championData.name}
             </div>
-            <div 
+            {/* <div 
                 className = 'unit-cost'
                 style={{
                     backgroundColor: colours[championData.cost],
@@ -51,7 +54,7 @@ const Unit = ({
                 }}
             >
                 {`${(championData.cost !== 0)? `$${championData.cost}` : ''}`}
-            </div>
+            </div> */}
         </div>
     );
 }

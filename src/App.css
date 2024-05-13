@@ -359,10 +359,11 @@
     color: white;
     text-align: center;
     width: 100%;
-    height: auto;
+    height: 10px;
     background-color: rgba(0,0,0,0.5);
     position: absolute;
     bottom: 0px;
+    overflow: hidden;
 }
 
 .unit {
@@ -382,8 +383,9 @@
     color: white;
     text-align: center;
     width: 100%;
-    height: auto;
+    height: 12px;
     background-color: rgba(0,0,0,0.5);
+    overflow: hidden;
 }
 
 .unit-cost {

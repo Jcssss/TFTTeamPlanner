@@ -31,8 +31,6 @@ const Item = ({ itemData }: PropTypes) => {
             }}
             onClick={() => {
                 console.log(itemData.apiName)
-                console.log(itemData.incompatibleTraits)
-                console.log(`${baseUrl + itemData.img}`)
             }}
         >
             <div className='item-name'>

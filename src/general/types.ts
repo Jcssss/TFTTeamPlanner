@@ -1,5 +1,6 @@
 export type ItemType = {
     apiName: string,
+    itemType: string,
     name: string,
     composition: string[],
     img: string,
