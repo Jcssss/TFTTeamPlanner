@@ -42,19 +42,6 @@ const Unit = ({
             <div className='unit-name'>
                 {championData.name}
             </div>
-            {/* <div 
-                className = 'unit-cost'
-                style={{
-                    backgroundColor: colours[championData.cost],
-                    position: 'absolute',
-                    zIndex: 300,
-                    width: '25%',
-                    right: '0px',
-                    top: '-2px'
-                }}
-            >
-                {`${(championData.cost !== 0)? `$${championData.cost}` : ''}`}
-            </div> */}
         </div>
     );
 }

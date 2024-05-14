@@ -1,18 +1,20 @@
 import { ItemType } from "../../general/types";
 import Item from "./Item";
 import { useAsyncReference } from "../../hooks/useAsyncReference";
+import { useState } from "react";
+import Search from "./Search";
 
 type PropTypes = {
     items: ItemType[],
-    searchTerm: string,
 }
 
 // The organizer for units and items. Built with preset and search filters
 const ItemOrganizer = ({ 
-    items, searchTerm
+    items
 }: PropTypes) => {
     const displayStates = ['Normal', 'Artifact', 'Support', 'Emblem', 'Other'];
     const [display, setDisplay] = useAsyncReference('Normal');
+    const [searchTerm, setSearchTerm] = useState('');
 
     /*
     Given the name of an item/champion, checks if the name matches
@@ -51,6 +53,8 @@ const ItemOrganizer = ({
 
     return (
         <div className='organizer__item-container'>
+            <div className='organizer__container-header'>Items</div>
+            <Search setSearchTerm={setSearchTerm}/>
             <div className='organizer__item_filter'>
                 {displayStates.map((state) => (
                     <div 

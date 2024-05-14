@@ -1,18 +1,19 @@
 import { UnitType } from "../../general/types";
 import Unit from "./Unit";
-import { useAsyncReference } from "../../hooks/useAsyncReference";
+import { useState } from "react";
+import Search from "./Search";
 
 type PropTypes = {
     units: UnitType[],
-    searchTerm: string,
     onUnitClick: Function,
 }
 
 // The organizer for units and items. Built with preset and search filters
 const UnitOrganizer = ({ 
-    units, searchTerm, onUnitClick
+    units, onUnitClick
 }: PropTypes) => {
 
+    const [searchTerm, setSearchTerm] = useState('');
     /*
     Given the name of an item/champion, checks if the name matches
     the search term. Searching Az'ir will return Azir and searching
@@ -49,6 +50,9 @@ const UnitOrganizer = ({
 
     return (
         <div className='organizer__item-container'>
+            <Search 
+                setSearchTerm={setSearchTerm}
+            />
             {/* <div className='organizer__item_filter'>
                 {displayStates.map((state) => (
                     <div 
