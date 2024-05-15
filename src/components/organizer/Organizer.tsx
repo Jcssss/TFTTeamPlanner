@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import { useAsyncReference } from '../../hooks/useAsyncReference';
 import Tooltip from '../help/Tooltip';
 import { UnitType, ItemType } from '../../general/types';
@@ -15,12 +15,9 @@ type PropTypes = {
 const Organizer = ({ 
     champions, items, onUnitClick 
 }: PropTypes) => {
-    const [displayState, setDisplayState] = useAsyncReference('All');
+    const [displayState, setDisplayState] = useAsyncReference('Units');
     const [viewportState, setviewportState] = useState('mobile');
-    const displayStateOptions: {[key: string]: string[]} = {
-        desktop: ['All', 'Units', 'Items'],
-        mobile: ['Units', 'Items']
-    }
+    const displayStateOptions = ['Units', 'Items'];
 
     // sets a resize event listener
     useEffect(() => {
@@ -30,25 +27,59 @@ const Organizer = ({
 
     // based on the screen width, adjust settings
     const detectWidth = () => {
-        if (window.innerWidth < 700) {
+        if (window.innerWidth < 800) {
             setviewportState('mobile');
-            if (displayState.current == 'All') {
-                setDisplayState('Units');
-            }
         } else {
             setviewportState('desktop');
         }
     }
 
-    return (
-        <div className='organizer-container'>
-            <UnitOrganizer
+    const displayMobileHeader = (): ReactElement => {
+        if (viewportState == 'mobile') {
+            return <div className='organizer__mobile-header'>
+                {
+                displayStateOptions.map((state) => {
+                    return <div
+                        className={`organizer__mobile-filter ${(displayState.current == state)? 'active': ''}`}
+                        onClick={() => setDisplayState(state)}
+                    >
+                        {state}
+                    </div>
+                })
+                }
+            </div>
+        }
+        return <></>
+    }
+
+    const displayUnits = (): ReactElement => {
+        if (viewportState == 'desktop' || displayState.current == 'Units') {
+            return <UnitOrganizer
                 units={champions}
                 onUnitClick={onUnitClick}
             />
-            <ItemOrganizer 
+        } else {
+            return <></>
+        }
+    }
+
+    const displayItems = (): ReactElement => {
+        if (viewportState == 'desktop' || displayState.current == 'Items') {
+            return <ItemOrganizer 
                 items={items}
             />
+        } else {
+            return <></>
+        }
+    }
+
+    return (
+        <div className='organizer__container'>
+            {displayMobileHeader()}
+            <div className='organizer__unit-item-container'>
+                {displayUnits()}
+                {displayItems()} 
+            </div>          
         </div>
     );
 }

@@ -61,13 +61,13 @@ const UnitOrganizer = ({
                 <div className='organizer__unit-title'>Units</div>
                 <Search 
                     setSearchTerm={setSearchTerm}
-                    placeholder={'Search units...'}
+                    placeholder={'Search units by name...'}
                 />
             </div>
-            <div className='organizer__item_filter'>
+            <div className='organizer__filter'>
                 {displayStates.map((state) => (
                     <div 
-                        className={`organizer__item-filter-button ${(display.current === state)? 'active' : ''}`}
+                        className={`organizer__filter-button ${(display.current === state)? 'active' : ''}`}
                         onClick={() => setDisplay(state)}
                         key={state}
                     >
