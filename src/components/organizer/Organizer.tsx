@@ -42,15 +42,13 @@ const Organizer = ({
 
     return (
         <div className='organizer-container'>
-            <div className='img-container'>
-                <ItemOrganizer 
-                    items={items}
-                />
-                <UnitOrganizer
-                    units={champions}
-                    onUnitClick={onUnitClick}
-                />
-            </div>
+            <UnitOrganizer
+                units={champions}
+                onUnitClick={onUnitClick}
+            />
+            <ItemOrganizer 
+                items={items}
+            />
         </div>
     );
 }

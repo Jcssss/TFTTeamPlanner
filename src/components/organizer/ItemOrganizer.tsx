@@ -38,23 +38,28 @@ const ItemOrganizer = ({
     // Filters and displays the set of items
     const displayItems = () => {
 
+        let filteredList = items.filter(item => filterDisplay(item))
         // Filters the set of items based on the search term
         return <div className='item-images'>
-            {items.filter(item => filterDisplay(item))
-                .map((item) => 
+            {(filteredList.length != 0)? filteredList.map((item) => 
                     <Item 
                         itemData={item} 
                         key={item.name}
                     />
-                )
+                ) : '**No Items match your criteria**'
             }
         </div>
     }
 
     return (
         <div className='organizer__item-container'>
-            <div className='organizer__container-header'>Items</div>
-            <Search setSearchTerm={setSearchTerm}/>
+            <div className='organizer__container-header'>
+                <div className='organizer__item-title'>Items</div>
+                <Search 
+                    setSearchTerm={setSearchTerm}
+                    placeholder={'Search items...'}
+                />
+            </div>
             <div className='organizer__item_filter'>
                 {displayStates.map((state) => (
                     <div 

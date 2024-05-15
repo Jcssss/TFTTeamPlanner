@@ -2,10 +2,11 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type PropTypes = {
-    setSearchTerm: Function
+    setSearchTerm: Function,
+    placeholder: string,
 }
 
-const Search = ({setSearchTerm}: PropTypes) => {
+const Search = ({setSearchTerm, placeholder}: PropTypes) => {
     return (
         <div className='search-bar__container'>
             <div className='search-bar'>
@@ -16,7 +17,7 @@ const Search = ({setSearchTerm}: PropTypes) => {
                 <input 
                     className='search-field'
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder='Search by name...'
+                    placeholder={placeholder}
                 ></input>
             </div>
         </div>

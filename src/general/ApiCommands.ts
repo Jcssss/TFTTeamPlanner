@@ -39,6 +39,15 @@ const ignorableItems: string[] = [
     'TFT10_Item_DJ_Mode3',
     'TFT_Item_DebugDamageAmp',
     'TFT4_Item_OrnnRocketPropelledFist',
+    'TFT_Item_ChainVest',
+    'TFT_Item_RecurveBow',
+    'TFT_Item_TearOfTheGoddess',
+    'TFT_Item_NegatronCloak',
+    'TFT_Item_SparringGloves',
+    'TFT_Item_BFSword',
+    'TFT_Item_NeedlesslyLargeRod',
+    'TFT_Item_GiantsBelt',
+    'TFT_Item_Spatula',
 ]
 
 const ignorableUnits: {[key: number] : string[]} = {
