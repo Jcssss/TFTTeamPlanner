@@ -301,7 +301,7 @@
 }
 
 .search-field {
-    font-size: 10px;
+    font-size: 12px;
     padding-left: 10px;
     width: 80%;
     border: none;
@@ -389,6 +389,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     padding: 5px 0px;
 }
 
@@ -475,7 +476,7 @@
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
     :root {
         --hex-width: 10vw;
     }
@@ -508,10 +509,6 @@
         font-size: 10px;
     }
 
-    .search-bar {
-        margin-top: 10px;
-    }
-
     .img-container {
         padding-left: 10px;
     }
@@ -524,12 +521,6 @@
         font-size: 12px;
         margin: 0px 0px 5px 0px;
         width: 100px;
-    }
-
-    .organizer-header {
-        flex-direction: column;
-        align-items: center;
-        margin-top: 2px;
     }
 
     .unit-name {

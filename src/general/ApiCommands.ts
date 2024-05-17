@@ -45,6 +45,8 @@ const ignorableItems: string[] = [
     'TFT_Item_NeedlesslyLargeRod',
     'TFT_Item_GiantsBelt',
     'TFT_Item_Spatula',
+    'TFT_Item_DebugFirstHit',
+    'TFT_Item_DebugTaunt',
 ]
 
 const ignorableUnits: {[key: number] : string[]} = {
@@ -128,7 +130,8 @@ export const fetchItems = function(
         // Filters items from the current set or in the general bin
         if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`) || 
             item.apiName.includes('TFT_Item') ||
-            item.apiName.includes('TFT4_Item_Ornn')) {
+            item.apiName.includes('TFT4_Item_Ornn') || 
+            item.apiName.includes('TFT9_Item_Ornn')) {
 
             // Filters out unwanted items
             if( item.name != null && 
@@ -140,15 +143,15 @@ export const fetchItems = function(
                 let itemType = '';
                 if (replaceItemTypes.hasOwnProperty(item.apiName)) {
                     itemType = replaceItemTypes[item.apiName];
+                } else if (item.apiName.includes('TFT_Item_Artifact') ||
+                    item.apiName.includes('Item_Ornn')) {
+                    itemType = 'artifact';
                 } else if (item.apiName.includes(`TFT${Math.floor(currentSet)}_Item`)) {
-                    if (item.apiName.includes('EmblemItem')) {
+                    if (item.apiName.includes('Emblem')) {
                         itemType = 'emblem';
                     } else {
                         itemType = 'other';
                     }
-                } else if (item.apiName.includes('TFT_Item_Artifact') ||
-                           item.apiName.includes('TFT4_Item_Ornn')) {
-                    itemType = 'artifact';
                 } else if (item.apiName.includes('TFT_Item') &&
                            item.composition.length == 0){
                     itemType = 'support';
