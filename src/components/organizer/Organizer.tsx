@@ -40,6 +40,7 @@ const Organizer = ({
                 {
                 displayStateOptions.map((state) => {
                     return <div
+                        key={state}
                         className={`organizer__mobile-filter ${(displayState.current == state)? 'active': ''}`}
                         onClick={() => setDisplayState(state)}
                     >

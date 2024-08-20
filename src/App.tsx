@@ -21,7 +21,7 @@ function App() {
     const [activeUnits, setActiveUnits] = useAsyncReference({});
     const [activeTraits, setActiveTraits] = useAsyncReference({});
     const [errorMessage, setErrorMessage] = useAsyncReference('');
-    const [currentSet, setCurrentSet] = useState(11)
+    const [currentSet, setCurrentSet] = useState(12)
     const forceUpdate = useCallback(() => updateState(s => !s), []);
 
     //const [augments, setAugments] = useState([]);
@@ -46,6 +46,15 @@ function App() {
 
         resetBoard();
     }, [currentSet]);
+
+    useEffect(() => {
+        window.addEventListener('onmousedown', (e) => {
+            e.preventDefault()
+        });
+        window.addEventListener('onmousemove', (e) => {
+            e.preventDefault()
+        });
+    })
 
     // resets the board
     const resetBoard = () => {

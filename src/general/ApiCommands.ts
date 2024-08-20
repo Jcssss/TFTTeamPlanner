@@ -50,36 +50,22 @@ const ignorableItems: string[] = [
 ]
 
 const ignorableUnits: {[key: number] : string[]} = {
-    9.5: [],
-    10: [],
     11: [
         'SightWard',
         'Golden Tree',
+    ],
+    12: [
+
     ]
 }
 
 // Renames certain traits from the API for debugging
 const replaceNames: {[key: number] : {[key: string]: string}} = {
-    9.5 : {
-        'Marksman': 'Gunner',
-        'Armorclad':'Juggernaut',
-        'Preserver':'Invoker'
-    },
-    10: {
-        'CrowdDive': 'Crowd Diver',
-        'PopBand': 'Heartsteel',
-        'Funk': 'Disco',
-        'Deadeye': 'Big Shot',
-        'Brawler': 'Bruiser',
-        'Quickshot': 'Rapidfire',
-        'Fighter': 'Mosher',
-        'PunkRock': 'Punk',
-        'KDA': 'K/DA',
-        '8Bit': '8-bit',
-        'TrueDamage': 'True Damage'
-    },
     11: {
         'InkShadow': 'Inkshadow'
+    },
+    12: {
+
     }
 }
 
@@ -89,9 +75,7 @@ const replaceItemTypes: {[key: string]: string} = {
 
 const convertSetToString = (setNumber: number): string => {
     let setString = `TFTSet${Math.floor(setNumber)}`;
-    if (Math.floor(setNumber) !== setNumber) {
-        setString = setString + '_Stage2';
-    }
+    console.log(setString);
     return setString;
 };
 
