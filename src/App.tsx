@@ -38,7 +38,7 @@ function App() {
         fetch('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json')
         .then(res => res.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             setChampions(fetchUnits(res, currentSet));
             setItems(fetchItems(res, currentSet));
             setTraits(fetchTraits(res, currentSet));
@@ -46,15 +46,6 @@ function App() {
 
         resetBoard();
     }, [currentSet]);
-
-    useEffect(() => {
-        window.addEventListener('onmousedown', (e) => {
-            e.preventDefault()
-        });
-        window.addEventListener('onmousemove', (e) => {
-            e.preventDefault()
-        });
-    })
 
     // resets the board
     const resetBoard = () => {
@@ -221,7 +212,7 @@ function App() {
         
         // checks if hex and moves hex accordingly
         } else if (type === 'hex') {
-            let hexData = data as HexDragData
+            let hexData = data as HexDragData;
 
             // checks that the hex has a unit
             if (champ !== null) {
@@ -309,8 +300,10 @@ function App() {
             'itemData': []
         };
         
-        setBoardState(board);
-        forceUpdate();
+        setBoardState(board, () => {
+            console.log(boardState.current)
+            forceUpdate()
+        });
     }
 
     return (

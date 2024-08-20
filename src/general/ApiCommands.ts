@@ -75,7 +75,6 @@ const replaceItemTypes: {[key: string]: string} = {
 
 const convertSetToString = (setNumber: number): string => {
     let setString = `TFTSet${Math.floor(setNumber)}`;
-    console.log(setString);
     return setString;
 };
 
