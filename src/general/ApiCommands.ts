@@ -90,7 +90,7 @@ const substituteTraitNames = (
         name = name.split('_')[1];
 
         // If a replacement exists replace it
-        if (name in replaceNames[currentSet]) {
+        if (replaceNames.hasOwnProperty(currentSet) && name in replaceNames[currentSet]) {
             incompatibleTraits.push(replaceNames[currentSet][name]);
         } else {
             incompatibleTraits.push(name);
@@ -179,7 +179,8 @@ export const fetchUnits = function(
 
         // Removes unnecessary units
         if (!Object.values(champion.stats).includes(null) &&
-            !(ignorableUnits[currentSet].includes(champion.name))) {
+            (!ignorableUnits.hasOwnProperty(currentSet) ||
+            !(ignorableUnits[currentSet].includes(champion.name)))) {
             
             imgName = champion.squareIcon;
             alreadyAdded.push(champion.name);

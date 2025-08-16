@@ -24,7 +24,7 @@ const UnitOrganizer = ({
     Reksai will return Rek'sai.
     */
     const filterDisplay = (data: UnitType) => {
-        if (!data) {
+        if (!data || !data.name) {
             return;
         }
 

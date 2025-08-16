@@ -11,7 +11,7 @@ const SetSelector = ({
     onOptionClick, activeSet
 }: PropTypes) => {
     const [active, setActive] = useState(false);
-    const setOptions = [11, 12];
+    const setOptions = [11, 12, 13, 14, 15];
 
     const setButton = (setNum: number) => {
         return (

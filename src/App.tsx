@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Board from './components/board/Board';
 import { DndProvider } from 'react-dnd' 
@@ -12,35 +12,43 @@ import Tooltip from './components/help/Tooltip';
 import AutoScroll from './components/dnd-components/AutoScroll';
 import { UnitType, ItemType, TraitType, HexDragData } from './general/types';
 
-//test comment
-
-//'https://raw.communitydragon.org/latest/game/assets/ux/tft/championsplashes/'
-//'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
+// The whole app can be found at https://jcssss.github.io/TFTCompPlanner/
 
 function App() {
+
+    // allows for a manual re-render of the page
     const [, updateState] = useState(false);
-    const [boardState, setBoardState] = useAsyncReference([]);
-    const [activeUnits, setActiveUnits] = useAsyncReference({});
-    const [activeTraits, setActiveTraits] = useAsyncReference({});
-    const [errorMessage, setErrorMessage] = useAsyncReference('');
-    const [currentSet, setCurrentSet] = useState(12)
     const forceUpdate = useCallback(() => updateState(s => !s), []);
 
-    //const [augments, setAugments] = useState([]);
+    // tracks units and items on the board as well as their positions
+    const [boardState, setBoardState] = useAsyncReference([]);
+
+    // tracks the active units and traits for special repetition cases
+    const [activeUnits, setActiveUnits] = useAsyncReference({});
+    const [activeTraits, setActiveTraits] = useAsyncReference({});
+
+    // error message for user
+    const [errorMessage, setErrorMessage] = useAsyncReference('');
+
+    // tracks the set to show, and handles switching sets
+    const [currentSet, setCurrentSet] = useState(15)
+
+    // holds the API data for use
     const [champions, setChampions]: [UnitType[], Function] = useState([]);
     const [traits, setTraits]: [TraitType[], Function] = useState([]);
     const [items, setItems]: [ItemType[], Function] = useState([]);
 
+    // options for the DnD provider
     const options = {
         enableMouseEvents: true,
     }
 
-    // fetches and loads necessary data
+    // fetches and loads API data on page load or set change
     useEffect(() => {
         fetch('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json')
         .then(res => res.json())
         .then(res => {
-            // console.log(res);
+            console.log(res);
             setChampions(fetchUnits(res, currentSet));
             setItems(fetchItems(res, currentSet));
             setTraits(fetchTraits(res, currentSet));
@@ -49,7 +57,7 @@ function App() {
         resetBoard();
     }, [currentSet]);
 
-    // resets the board
+    // resets and clears the board
     const resetBoard = () => {
         var temp = Array(4);
         for (var i = 0; i < 4; i++) {
@@ -63,7 +71,7 @@ function App() {
         setActiveTraits({});
     }
 
-    // Clears a hex
+    // clears a hex on the board
     const removeUnit = (row: number, column: number) => {
         var tempBoard = boardState.current;
         var tempActUnits = activeUnits.current;
@@ -167,6 +175,7 @@ function App() {
             }
         });
 
+        // sorts the traits from most active to least active for display purposes
         curActive = Object.fromEntries(
             Object.entries(curActive).sort((
                 [,t1]: [string, number],
@@ -177,10 +186,6 @@ function App() {
         );
 
         setActiveTraits(curActive);
-    }
-
-    const validateUnit = (data: UnitType) => {
-
     }
 
     // Adds a unit or item to a hex
@@ -309,12 +314,21 @@ function App() {
     }
 
     return (
+        // The DnD provider allowing for drag and drop functionality
         <DndProvider backend={TouchBackend} options={options}>
+
+            {/* A custom preview and auto scroll for when dragging */}
             <MyPreview />
             <AutoScroll/>
+
+            {/* The main app */}
             <div className='App'>
+
+                {/* Page header */}
                 <h1 className='page-title'>TFT Team Builder</h1>
                 <SetSelector onOptionClick={setCurrentSet} activeSet={currentSet}/>
+
+                {/* reset button and error message */}
                 <div className='reset-container'>
                     <h3 
                         className='reset-button' 
@@ -324,6 +338,8 @@ function App() {
                     </h3>
                 </div>
                 <h4 className='errorMessage'>{errorMessage.current}</h4>
+
+                {/* The board */}
                 <div style={{ display: 'flex', justifyContent: 'center'}}>
                     <Tooltip contentPosition={'bottom-right'} content={'board'}></Tooltip>
                     <Board 
@@ -335,6 +351,8 @@ function App() {
                         activeTraits={activeTraits.current}
                     /> 
                 </div>
+
+                {/* draggable units and items holder */}
                 <Organizer 
                     champions={champions}
                     items={items}
