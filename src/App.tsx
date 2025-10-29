@@ -12,7 +12,7 @@ import Tooltip from './components/help/Tooltip';
 import AutoScroll from './components/dnd-components/AutoScroll';
 import { UnitType, ItemType, TraitType, HexDragData } from './general/types';
 
-// The whole app can be found at https://jcssss.github.io/TFTCompPlanner/
+// The whole app can be found at https://jcssss.github.io/TFTTeamPlanner/
 
 function App() {
 
